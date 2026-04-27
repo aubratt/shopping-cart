@@ -1,3 +1,29 @@
+import { Outlet } from "react-router-dom";
+
 export default function Root() {
-  return <div>Hello World</div>;
+  return (
+    <>
+      <div className="announcement-bar">
+        <p className="announcement-bar__text">
+          Free shipping on orders over $100
+        </p>
+      </div>
+      <div className="nav-bar">
+        <div className="nav-bar__logo">
+          <p>Logo</p>
+        </div>
+        <div className="nav-bar__links">
+          <p>New</p>
+          <p>Men</p>
+          <p>Women</p>
+          <p>Sale</p>
+        </div>
+        <div className="nav-bar__utility">
+          <p>Account</p>
+          <p>Cart</p>
+        </div>
+      </div>
+      <Outlet />
+    </>
+  );
 }
