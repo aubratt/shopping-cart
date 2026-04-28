@@ -13,10 +13,11 @@ export default function Root() {
           <p>Logo</p>
         </div>
         <div className="nav-bar__links">
-          <p>New</p>
           <p>Men</p>
           <p>Women</p>
-          <p>Sale</p>
+          <p>Jewelry</p>
+          <p>Electronics</p>
+          
         </div>
         <div className="nav-bar__utility">
           <p>Account</p>
