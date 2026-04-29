@@ -81,6 +81,7 @@ h6 {
   --elevated: #d4a373;
   --border: #2e2e2e;
   --text-primary: #2e2e2e;
+  --inactive: rgba(254, 250, 224, 0.1);
 }
 
 body {
@@ -166,36 +167,97 @@ button:hover {
 }
 
 /* Hero Section */
-.hero-section {
+.hero {
   display: flex;
   border-bottom: 1px solid var(--border);
-  height: 650px;
+  height: 675px;
 }
-.hero-section__media {
-  background-image: url(./assets/hero.png);
+.hero__media {
+  background-image: url(./assets/images/hero.png);
   background-position: center;
   background-size: cover;
   border-right: 1px solid var(--border);
   width: 450px;
 }
-.hero-section__content {
+.hero__content {
   font-family: "Sometimes Times";
   text-align: center;
   margin: auto;
 }
 
-.hero-section__content h1 {
+.hero__content h1 {
   font-size: 5rem;
   font-weight: normal;
   line-height: 5.5rem;
 }
-.hero-section__content h2 {
+.hero__content h2 {
   font-size: 2.5rem;
   font-style: italic;
   font-weight: normal;
 }
-.hero-section__content button {
+.hero__content button {
   display: flex;
   justify-self: center;
   margin-top: 1rem;
+}
+
+/* Categories Section */
+.categories {
+  display: grid;
+  grid-template-columns: calc(24px + 2rem) repeat(4, 1fr) calc(24px + 2rem);
+  gap: 2rem;
+  border-bottom: 1px solid var(--border);
+  /* temporary */
+  margin-bottom: 4rem;
+}
+.categories__prev,
+.categories__next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface);
+}
+.categories__prev {
+  border-right: 1px solid var(--border);
+}
+.categories__next {
+  border-left: 1px solid var(--border);
+}
+.categories__card {
+  padding: 2rem 0;
+}
+.categories__card img {
+  aspect-ratio: 2 / 3;
+  border: 1px solid var(--border);
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+.categories__card p {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.categories__prev:hover,
+.categories__next:hover,
+.categories__card {
+  cursor: pointer;
+}
+.categories__prev:hover,
+.categories__next:hover {
+  background-color: var(--elevated);
+}
+.categories__card:hover img {
+  filter: brightness(50%);
+}
+.categories__card:hover p {
+  background-color: var(--elevated);
+}
+
+/* Hidden */
+.hidden {
+  display: none;
 }
