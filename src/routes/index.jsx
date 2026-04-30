@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
-import CategoryCarousel from "../components/CategoryCarousel";
+import Categories from "../components/Categories";
+import RegisterSection from "../components/Register";
 
 export default function Index() {
   return (
@@ -10,12 +11,13 @@ export default function Index() {
           <h1>Products that suit your lifestyle.</h1>
           <h2>Now shipping to Midgard.</h2>
           <button>
-            Shop Now
+            Shop All
             <ArrowRight strokeWidth={1.25} />
           </button>
         </div>
       </div>
-      <CategoryCarousel />
+      <Categories />
+      <RegisterSection />
     </>
   );
 }

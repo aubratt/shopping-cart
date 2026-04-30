@@ -49,30 +49,35 @@ export default function Footer() {
               bgColor="#2e2e2e"
               fgColor="#faedcd"
               style={iconSize}
+              target="_blank"
             />
             <SocialIcon
               url="https://tiktok.com"
               bgColor="#2e2e2e"
               fgColor="#faedcd"
               style={iconSize}
+              target="_blank"
             />
             <SocialIcon
               url="https://bsky.app"
               bgColor="#2e2e2e"
               fgColor="#faedcd"
               style={iconSize}
+              target="_blank"
             />
             <SocialIcon
               url="https://x.com"
               bgColor="#2e2e2e"
               fgColor="#faedcd"
               style={iconSize}
+              target="_blank"
             />
             <SocialIcon
               url="https://facebook.com"
               bgColor="#2e2e2e"
               fgColor="#faedcd"
               style={iconSize}
+              target="_blank"
             />
           </div>
         </div>

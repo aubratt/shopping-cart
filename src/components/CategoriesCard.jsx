@@ -1,4 +1,4 @@
-export default function CategoryCard({ category }) {
+export default function CategoriesCard({ category }) {
   return (
     <div className={"categories__card"}>
       <img src={category.src} alt={category.alt} />

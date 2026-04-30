@@ -207,8 +207,6 @@ button:hover {
   grid-template-columns: calc(24px + 2rem) repeat(4, 1fr) calc(24px + 2rem);
   gap: 2rem;
   border-bottom: 1px solid var(--border);
-  /* temporary */
-  /* margin-bottom: 4rem; */
 }
 .categories__prev,
 .categories__next {
@@ -265,6 +263,61 @@ button:hover {
 }
 .categories__card:hover p {
   background-color: var(--elevated);
+}
+
+/* Register Section */
+.register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding: 2rem;
+}
+.register__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.register__heading h2 {
+  font-family: "Sometimes Times";
+  font-size: 4rem;
+  font-style: italic;
+  font-weight: normal;
+  line-height: 4rem;
+}
+.register__heading p {
+  max-width: 600px;
+}
+.register__perks {
+  display: flex;
+  gap: 3rem;
+  padding: 2rem;
+}
+.register__perk {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  text-align: center;
+  max-width: 100px;
+}
+.register__perk-icon {
+  align-self: flex-start;
+  justify-self: center;
+  background-color: var(--elevated);
+  border-radius: 50%;
+  margin: auto;
+  padding: 0.5rem;
+}
+.register__perk-icon svg {
+  border: 2px dashed var(--text-light);
+  border-radius: 50%;
+  padding: 0.5rem;
+}
+.register__button button {
+  display: flex;
 }
 
 /* Footer */

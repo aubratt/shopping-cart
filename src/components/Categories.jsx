@@ -1,12 +1,12 @@
 import { useState } from "react";
-import CategoryCard from "./CategoryCard";
+import CategoriesCard from "./CategoriesCard";
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Category1 from "../assets/images/category-1.jpg";
 import Category2 from "../assets/images/category-2.jpg";
 import Category3 from "../assets/images/category-3.jpg";
 
-export default function CategoryCarousel() {
+export default function Categories() {
   class Category {
     constructor(name, src, alt) {
       this.id = crypto.randomUUID();
@@ -97,7 +97,7 @@ export default function CategoryCarousel() {
       {categories
         .filter((cat) => cat.visible === true)
         .map((cat) => {
-          return <CategoryCard key={cat.id} category={cat} />;
+          return <CategoriesCard key={cat.id} category={cat} />;
         })}
 
       <button
