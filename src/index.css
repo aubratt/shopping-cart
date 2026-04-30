@@ -212,6 +212,7 @@ button:hover {
 }
 .categories__prev,
 .categories__next {
+  all: unset;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -241,6 +242,15 @@ button:hover {
   padding: 0.5rem 1rem;
 }
 
+.categories__prev:disabled,
+.categories__next:disabled {
+  background-color: var(--background);
+}
+.categories__prev:disabled:hover,
+.categories__next:disabled:hover {
+  cursor: default;
+  background-color: var(--background);
+}
 .categories__prev:hover,
 .categories__next:hover,
 .categories__card {
@@ -255,9 +265,4 @@ button:hover {
 }
 .categories__card:hover p {
   background-color: var(--elevated);
-}
-
-/* Hidden */
-.hidden {
-  display: none;
 }
