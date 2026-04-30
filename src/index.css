@@ -77,10 +77,12 @@ h6 {
 /* Shopping Cart */
 :root {
   --background: #fefae0;
+  --background-dark: #2e2e2e;
   --surface: #faedcd;
   --elevated: #d4a373;
   --border: #2e2e2e;
   --text-primary: #2e2e2e;
+  --text-light: #fefae0;
   --inactive: rgba(254, 250, 224, 0.1);
 }
 
@@ -107,10 +109,8 @@ button:hover {
 .announcement-bar {
   display: flex;
   justify-content: center;
-  background-color: var(--border);
-  color: var(--background);
-}
-.announcement-bar__text {
+  background-color: var(--background-dark);
+  color: var(--text-light);
   padding: 0.5rem 0;
 }
 
@@ -208,7 +208,7 @@ button:hover {
   gap: 2rem;
   border-bottom: 1px solid var(--border);
   /* temporary */
-  margin-bottom: 4rem;
+  /* margin-bottom: 4rem; */
 }
 .categories__prev,
 .categories__next {
@@ -265,4 +265,35 @@ button:hover {
 }
 .categories__card:hover p {
   background-color: var(--elevated);
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface);
+}
+.footer__lists {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+.footer__list {
+  display: flex;
+  flex-direction: column;
+}
+.footer__list-items {
+  display: flex;
+  flex-direction: column;
+}
+.footer__list-icons {
+  display: flex;
+  gap: 0.5rem;
+}
+.footer__bottom {
+  background-color: var(--background-dark);
+  color: var(--text-light);
+  text-align: center;
+  padding: 1rem 0;
 }
