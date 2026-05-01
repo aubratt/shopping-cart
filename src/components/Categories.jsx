@@ -5,6 +5,9 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import Category1 from "../assets/images/category-1.jpg";
 import Category2 from "../assets/images/category-2.jpg";
 import Category3 from "../assets/images/category-3.jpg";
+import Category4 from "../assets/images/category-4.jpg";
+import Category5 from "../assets/images/category-5.jpg";
+import Category6 from "../assets/images/category-6.jpg";
 
 export default function Categories() {
   class Category {
@@ -21,9 +24,9 @@ export default function Categories() {
   const category1 = new Category("new", "New", Category1);
   const category2 = new Category("sale", "Sale", Category2);
   const category3 = new Category("men", "Men", Category3);
-  const category4 = new Category("women", "Women", Category3);
-  const category5 = new Category("jewelry", "Jewelry", Category3);
-  const category6 = new Category("electronics", "Electronics", Category3);
+  const category4 = new Category("women", "Women", Category4);
+  const category5 = new Category("jewelry", "Jewelry", Category5);
+  const category6 = new Category("electronics", "Electronics", Category6);
 
   const [categories, setCategories] = useState([
     category1,
