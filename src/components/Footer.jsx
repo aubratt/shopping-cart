@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { SocialIcon } from "react-social-icons";
 
 export default function Footer() {
@@ -11,11 +12,11 @@ export default function Footer() {
             <h4>SHOP</h4>
           </div>
           <div className="footer__list-items">
-            <a>All</a>
-            <a>Men</a>
-            <a>Women</a>
-            <a>Jewelry</a>
-            <a>Electronics</a>
+            <Link to="shop/all">All</Link>
+            <Link to="shop/men">Men</Link>
+            <Link to="shop/women">Women</Link>
+            <Link to="shop/jewelry">Jewelry</Link>
+            <Link to="shop/electronics">Electronics</Link>
           </div>
         </div>
         <div className="footer__list">
@@ -23,8 +24,8 @@ export default function Footer() {
             <h4>HELP</h4>
           </div>
           <div className="footer__list-items">
-            <a>Contact</a>
-            <a>FAQ</a>
+            <Link to="help/contact">Contact</Link>
+            <Link to="help/faq">FAQ</Link>
           </div>
         </div>
         <div className="footer__list">
@@ -32,11 +33,11 @@ export default function Footer() {
             <h4>COMPANY</h4>
           </div>
           <div className="footer__list-items">
-            <a>About</a>
-            <a>Press</a>
-            <a>News & Stories</a>
-            <a>Terms of Service</a>
-            <a>Privacy</a>
+            <Link to="company/about">About</Link>
+            <Link to="company/press">Press</Link>
+            <Link to="company/news">News & Stories</Link>
+            <Link to="company/terms">Terms of Service</Link>
+            <Link to="company/privacy">Privacy</Link>
           </div>
         </div>
         <div className="footer__list">

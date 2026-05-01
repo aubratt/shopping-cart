@@ -1,5 +1,5 @@
 import { ShoppingCart, SquareUserRound } from "lucide-react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 
 export default function Root() {
@@ -14,25 +14,27 @@ export default function Root() {
       </div>
       <div className="nav-bar">
         <div className="nav-bar__business">
-          <a className="nav-bar__logo">ODINSTORE</a>
-          <a>About</a>
-          <a>Contact</a>
+          <Link to="/" className="nav-bar__logo">
+            ODINSTORE
+          </Link>
+          <Link to="company/about">About</Link>
+          <Link to="help/contact">Contact</Link>
         </div>
         <div className="nav-bar__links">
-          <a>Men</a>
-          <a>Women</a>
-          <a>Jewelry</a>
-          <a>Electronics</a>
+          <Link to="shop/men">Men</Link>
+          <Link to="shop/women">Women</Link>
+          <Link to="shop/jewelry">Jewelry</Link>
+          <Link to="shop/electronics">Electronics</Link>
         </div>
         <div className="nav-bar__utility">
-          <a>
+          <Link to="account">
             <SquareUserRound />
             <p>Account</p>
-          </a>
-          <a>
+          </Link>
+          <Link to="cart">
             <ShoppingCart />
             <p>Cart</p>
-          </a>
+          </Link>
         </div>
       </div>
       <Outlet />

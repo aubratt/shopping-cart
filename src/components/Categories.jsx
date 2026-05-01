@@ -8,8 +8,9 @@ import Category3 from "../assets/images/category-3.jpg";
 
 export default function Categories() {
   class Category {
-    constructor(name, src, alt) {
+    constructor(path, name, src, alt) {
       this.id = crypto.randomUUID();
+      this.path = path;
       this.name = name;
       this.src = src;
       this.alt = alt;
@@ -17,12 +18,12 @@ export default function Categories() {
     }
   }
 
-  const category1 = new Category("New", Category1);
-  const category2 = new Category("Sale", Category2);
-  const category3 = new Category("Men", Category3);
-  const category4 = new Category("Women", Category3);
-  const category5 = new Category("Jewelry", Category3);
-  const category6 = new Category("Electronics", Category3);
+  const category1 = new Category("new", "New", Category1);
+  const category2 = new Category("sale", "Sale", Category2);
+  const category3 = new Category("men", "Men", Category3);
+  const category4 = new Category("women", "Women", Category3);
+  const category5 = new Category("jewelry", "Jewelry", Category3);
+  const category6 = new Category("electronics", "Electronics", Category3);
 
   const [categories, setCategories] = useState([
     category1,
@@ -77,7 +78,6 @@ export default function Categories() {
     }
 
     setCategories(newCategories);
-    console.log(categories);
   }
 
   initCards(4);

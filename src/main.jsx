@@ -5,6 +5,11 @@ import "./index.css";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import Index from "./routes/index";
+import Company from "./routes/company";
+import Help from "./routes/help";
+import Shop from "./routes/shop";
+import Account from "./routes/account";
+import Cart from "./routes/cart";
 
 const router = createBrowserRouter([
   {
@@ -13,8 +18,33 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
-        element: <Index />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <Index />,
+          },
+          {
+            path: "company/:page",
+            element: <Company />,
+          },
+          {
+            path: "help/:page",
+            element: <Help />,
+          },
+          {
+            path: "shop/:category",
+            element: <Shop />,
+          },
+          {
+            path: "account",
+            element: <Account />,
+          },
+          {
+            path: "cart",
+            element: <Cart />,
+          },
+        ],
       },
     ],
   },
