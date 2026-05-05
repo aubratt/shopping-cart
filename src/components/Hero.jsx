@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
@@ -8,7 +8,7 @@ export default function Hero() {
       <div className="hero__content">
         <h1>Products that suit your lifestyle.</h1>
         <h2>Now shipping to Midgard.</h2>
-        <Link to="shop/all">
+        <Link to="shop/all" state={{ category: "all" }}>
           <button>
             Shop All
             <ArrowRight />

@@ -52,8 +52,6 @@ export default function Categories() {
 
       setCategories(newCategories);
     }
-
-    console.log(categories);
   }
 
   function handleArrowClick(next) {
