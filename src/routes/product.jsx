@@ -5,6 +5,7 @@ import OptionSize from "../components/OptionSize";
 import { useState } from "react";
 import GalleryImage from "../components/GalleryImage";
 import ProductDetail from "../components/ProductDetail";
+import RatingStars from "../components/RatingStars";
 
 export default function Product() {
   const location = useLocation();
@@ -15,6 +16,15 @@ export default function Product() {
   const [selectedColor, setSelectedColor] = useState("black");
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const shipping = `All orders are processed and shipped from our fulfillment 
+  center in California, Monday through Friday, with the exception of public US 
+  holidays. Domestic and international orders over $100 ship for FREE. 
+  International orders ship via Passport (Taxes and Duties still apply). Express
+  shipping is available for an additional fee.`;
+  const returnsExchanges = `For hygienic reasons, earrings, underwear, socks,
+  headwear, and hair accessories cannot be returned or exchanged. All
+  sale/discounted items are FINAL SALE and cannot be returned/exchanged. All 
+  other full-price items are eligible to be returned or exchanged for free. `;
 
   function getUnformattedCategory(category) {
     if (category === "men") return "men's clothing";
@@ -95,10 +105,13 @@ export default function Product() {
           <div className="product__heading">
             <h1>{product.title}</h1>
             <div className="product__subheading">
-              <p>${product.price}</p>
-              <p>
-                {product.rating.rate}/5 ({product.rating.count} Reviews)
-              </p>
+              <p className="product__price">${product.price}</p>
+              <div className="product__rating">
+                <RatingStars product={product} />
+                <p className="product__review-count">
+                  {product.rating.count} Reviews
+                </p>
+              </div>
             </div>
           </div>
           <div className="product__option">
@@ -216,10 +229,10 @@ export default function Product() {
               heading="Description"
               content={product.description}
             />
-            <ProductDetail heading="Shipping" content="Shipping" />
+            <ProductDetail heading="Shipping" content={shipping} />
             <ProductDetail
               heading="Returns & Exchanges"
-              content="Returns & Exchanges"
+              content={returnsExchanges}
             />
           </div>
         </div>
