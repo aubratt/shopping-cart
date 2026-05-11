@@ -12,13 +12,13 @@ export default function NavBar() {
         <Link to="help/contact">Contact</Link>
       </div>
       <div className="nav-bar__links">
-        <Link to="shop/men" state={{ category: "men's clothing" }}>
+        <Link to="shop/men" state={{ category: "men" }}>
           Men
         </Link>
-        <Link to="shop/women" state={{ category: "women's clothing" }}>
+        <Link to="shop/women" state={{ category: "women" }}>
           Women
         </Link>
-        <Link to="shop/jewelry" state={{ category: "jewelery" }}>
+        <Link to="shop/jewelry" state={{ category: "jewelry" }}>
           Jewelry
         </Link>
         <Link to="shop/electronics" state={{ category: "electronics" }}>

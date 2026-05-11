@@ -13,9 +13,9 @@ export default function Footer() {
           </div>
           <div className="footer__list-items">
             <Link to="shop/all" state={{ category: "all" }}>All</Link>
-            <Link to="shop/men" state={{ category: "men's clothing" }}>Men</Link>
-            <Link to="shop/women" state={{ category: "women's clothing" }}>Women</Link>
-            <Link to="shop/jewelry" state={{ category: "jewelery" }}>Jewelry</Link>
+            <Link to="shop/men" state={{ category: "men" }}>Men</Link>
+            <Link to="shop/women" state={{ category: "women" }}>Women</Link>
+            <Link to="shop/jewelry" state={{ category: "jewelry" }}>Jewelry</Link>
             <Link to="shop/electronics" state={{ category: "electronics" }}>Electronics</Link>
           </div>
         </div>
