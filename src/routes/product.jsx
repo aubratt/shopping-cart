@@ -1,4 +1,13 @@
-import { ChevronDown, ChevronRight, Minus, Plus } from "lucide-react";
+import {
+  Check,
+  ChevronDown,
+  ChevronRight,
+  CircleCheck,
+  Minus,
+  Plus,
+  ThumbsDown,
+  ThumbsUp,
+} from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import OptionColor from "../components/OptionColor";
 import OptionSize from "../components/OptionSize";
@@ -6,6 +15,7 @@ import { useState } from "react";
 import GalleryImage from "../components/GalleryImage";
 import ProductDetail from "../components/ProductDetail";
 import RatingStars from "../components/RatingStars";
+import { Rating } from "@mui/material";
 
 export default function Product() {
   const location = useLocation();
@@ -234,6 +244,82 @@ export default function Product() {
               heading="Returns & Exchanges"
               content={returnsExchanges}
             />
+          </div>
+        </div>
+      </div>
+      <div className="product__rating-and-reviews">
+        <div className="product__rating-large">
+          <div className="product__rating-stars-large">
+            <Rating
+              name={product.id}
+              defaultValue={0}
+              value={product.rating.rate}
+              precision={0.25}
+              size="large"
+              sx={{ color: "black" }}
+              readOnly
+            />
+            <p className="product__rating-value-large">{product.rating.rate}</p>
+          </div>
+          <div className="product__review-count-large">
+            <p>Based on {product.rating.count} reviews</p>
+          </div>
+        </div>
+        <div className="product__write-a-review">
+          <button>Write a Review</button>
+        </div>
+        <div className="product__reviews">
+          <div className="product__review">
+            <div className="product__review-main">
+              <div className="product__reviewer">
+                <p className="product__reviewer-username">username</p>
+                <div className="product__reviewer-verified">
+                  <p>Verified Buyer</p>
+                  <Check width="16px" />
+                </div>
+              </div>
+              <Rating defaultValue={5} sx={{ color: "black" }} readOnly />
+              <div className="product__review-content">
+                <p className="product__review-title">Review Title</p>
+                <p className="product__review-body">
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit
+                  amet consectetur adipiscing elit quisque faucibus ex.
+                  Adipiscing elit quisque faucibus ex sapien vitae pellentesque.
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit
+                  amet consectetur adipiscing elit quisque faucibus ex.
+                  Adipiscing elit quisque faucibus ex sapien vitae pellentesque.
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit
+                  amet consectetur adipiscing elit quisque faucibus ex.
+                  Adipiscing elit quisque faucibus ex sapien vitae pellentesque.
+                </p>
+              </div>
+              <div className="product__review-rec">
+                <p className="product__review-rec-label">
+                  Recommends this product:{" "}
+                  <span className="product__review-rec-value">Yes</span>
+                </p>
+              </div>
+            </div>
+            <div className="product__review-details">
+              <p className="product__review-date">
+                x days/weeks/months/years ago
+              </p>
+              <div className="product__review-helpful">
+                <p className="product___review-helpful-label">Helpful?</p>
+                <div className="product__review-helpful-buttons">
+                  <button className="product__review-helpful-button">
+                    <p>Yes</p>
+                    <ThumbsUp width="18px" />
+                    <p>21</p>
+                  </button>
+                  <button className="product__review-helpful-button">
+                    <p>No</p>
+                    <ThumbsDown width="18px" />
+                    <p>1</p>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

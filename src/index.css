@@ -20,14 +20,14 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-img,
+/* img,
 picture,
 video,
 canvas,
 svg {
-  /* display: block;
-  max-width: 100%; */
-}
+  display: block;
+  max-width: 100%;
+} */
 
 input,
 button,
@@ -81,11 +81,12 @@ h6 {
   --surface: #faedcd;
   --elevated: #d4a373;
   --border: #2e2e2e;
-  --border-light: lightgray;
+  --border-light: #afafaf;
   --text-primary: #2e2e2e;
   --text-light: #fefae0;
-  --text-gray: gray;
+  --text-gray: #666666;
   --text-dark: black;
+  --success: #86bfa6;
   --inactive: rgba(254, 250, 224, 0.1);
 }
 
@@ -593,6 +594,95 @@ button:hover {
 .product__detail-content {
   margin-top: 1rem;
 }
+.product__rating-and-reviews {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.product__rating-large {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.product__rating-stars-large {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+.product__write-a-review {
+  margin: 1rem 0 1.5rem;
+}
+.product__reviews {
+  border-top: 1px solid var(--border);
+  width: 100%;
+}
+.product__review {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  width: 100%;
+  padding: 1rem 0;
+}
+.product__reviewer {
+  display: flex;
+  column-gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.product__reviewer-username {
+  font-weight: bold;
+}
+.product__reviewer-verified {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.25rem;
+  background-color: var(--success);
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  padding: 0 0.5rem;
+}
+.product__review-content {
+  margin-bottom: 0.5rem;
+}
+.product__review-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.product__review-rec-label {
+  font-weight: bold;
+}
+.product__review-rec-value {
+  font-weight: normal;
+}
+.product__review-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.product__review-date {
+  color: var(--text-gray);
+}
+.product__review-helpful {
+  display: flex;
+  column-gap: 0.5rem;
+}
+.product__review-helpful-buttons {
+  display: flex;
+  column-gap: 0.5rem;
+}
+.product__review-helpful-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
+  background-color: var(--background);
+  color: var(--text-gray);
+  border: 1px solid var(--border-light);
+  font-size: 0.875rem;
+  padding: 0 0.5rem;
+}
 
 .product__breadcrumb:hover {
   border-bottom: 1px solid var(--border);
@@ -620,6 +710,10 @@ button:hover {
 }
 .product__detail-heading:hover {
   background-color: var(--background);
+}
+.product__review-helpful-button:hover {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
 }
 
 /* Footer */
