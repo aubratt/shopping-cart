@@ -1,80 +1,30 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { getProducts } from "../products";
+import { useMemo, useState } from "react";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 
 export default function Shop() {
-  const [products, setProducts] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const location = useLocation();
-  const category = location.state.category;
-  const categoryUnformatted = getUnformattedCategory(category);
-  const categoryHeading = capitalizeCategory(category);
+  const { category } = useParams();
+  const categoryCapitalized =
+    String(category).charAt(0).toUpperCase() + String(category).slice(1);
 
-  useEffect(() => {
-    const fetchProductsData = async () => {
-      try {
-        let productsData;
-        if (category === "all")
-          productsData = await getProducts(
-            `https://fakestoreapi.com/products/`,
-          );
-        else
-          productsData = await getProducts(
-            `https://fakestoreapi.com/products/category/${categoryUnformatted}`,
-          );
-        setProductsFormatted(productsData);
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-        setProducts(null);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { loading, error, products } = useOutletContext();
+  const [sortMethod, setSortMethod] = useState("default");
+  const displayedProducts = useMemo(() => {
+    let result = [...products];
 
-    fetchProductsData();
-  }, [category]);
+    if (category !== "all")
+      result = result.filter((product) => product.category === category);
 
-  function setProductsFormatted(products) {
-    const formatted = products.map((product) => {
-      let category;
-      if (product.category === "men's clothing") category = "men";
-      if (product.category === "women's clothing") category = "women";
-      if (product.category === "jewelery") category = "jewelry";
-      if (product.category === "electronics") category = product.category;
+    if (sortMethod === "default") result.sort((a, b) => a.id - b.id)
+    if (sortMethod === "price-lo-hi") result.sort((a, b) => a.price - b.price);
+    if (sortMethod === "price-hi-lo") result.sort((a, b) => b.price - a.price);
+    if (sortMethod === "rating-lo-hi")
+      result.sort((a, b) => a.rating.rate - b.rating.rate);
+    if (sortMethod === "rating-hi-lo")
+      result.sort((a, b) => b.rating.rate - a.rating.rate);
 
-      return { ...product, category: category };
-    });
-
-    setProducts(formatted);
-  }
-
-  function getUnformattedCategory(category) {
-    if (category === "men") return "men's clothing";
-    if (category === "women") return "women's clothing";
-    if (category === "jewelry") return "jewelery";
-    return category;
-  }
-
-  function handleSort(e) {
-    const selected = e.target.value;
-    const unsorted = [...products];
-
-    if (selected === "price-low-to-high")
-      setProducts(unsorted.sort((a, b) => a.price - b.price));
-    if (selected === "price-high-to-low")
-      setProducts(unsorted.sort((a, b) => b.price - a.price));
-    if (selected === "rating-low-to-high")
-      setProducts(unsorted.sort((a, b) => a.rating.rate - b.rating.rate));
-    if (selected === "rating-high-to-low")
-      setProducts(unsorted.sort((a, b) => b.rating.rate - a.rating.rate));
-  }
-
-  function capitalizeCategory(category) {
-    return String(category).charAt(0).toUpperCase() + String(category).slice(1);
-  }
+    return result;
+  }, [products, category, sortMethod]);
 
   return (
     <div className="shop">
@@ -84,14 +34,13 @@ export default function Shop() {
             <h1 className="shop__breadcrumb-category">All</h1>
           ) : (
             <>
-              <Link
-                to="/shop/all"
-                state={{ category: "all" }}
-                className="shop__breadcrumb-all">
+              <Link to="/shop/all" className="shop__breadcrumb-all">
                 <h1>All</h1>
               </Link>
               <ChevronRight />
-              <h1 className="shop__breadcrumb-category">{categoryHeading}</h1>
+              <h1 className="shop__breadcrumb-category">
+                {categoryCapitalized}
+              </h1>
             </>
           )}
         </div>
@@ -101,12 +50,12 @@ export default function Shop() {
             name="sort"
             id="sort"
             defaultValue="default"
-            onChange={(e) => handleSort(e)}>
+            onChange={(e) => setSortMethod(e.target.value)}>
             <option value="default">Default</option>
-            <option value="price-low-to-high">Price Low to High</option>
-            <option value="price-high-to-low">Price High to Low</option>
-            <option value="rating-low-to-high">Rating Low to High</option>
-            <option value="rating-high-to-low">Rating High to Low</option>
+            <option value="price-lo-hi">Price Low to High</option>
+            <option value="price-hi-lo">Price High to Low</option>
+            <option value="rating-lo-hi">Rating Low to High</option>
+            <option value="rating-hi-lo">Rating High to Low</option>
           </select>
         </div>
       </div>
@@ -117,13 +66,15 @@ export default function Shop() {
 
       <div className="shop__products">
         {products &&
-          products.map((product) => {
+          displayedProducts.map((product) => {
             const price = Number(product?.price).toFixed(2);
             return (
               <Link
                 key={product?.id}
                 to={`/product/${product.id}`}
-                state={{ product: product }}>
+                state={{
+                  product: product,
+                }}>
                 <div className="shop__product">
                   <div className="shop__product-image">
                     <img src={product?.image} alt={product?.title} />
