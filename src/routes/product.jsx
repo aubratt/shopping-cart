@@ -7,6 +7,7 @@ import {
   Plus,
   ThumbsDown,
   ThumbsUp,
+  X,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import OptionColor from "../components/OptionColor";
@@ -26,6 +27,9 @@ export default function Product() {
   const [selectedColor, setSelectedColor] = useState("black");
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [reviewing, setReviewing] = useState(false);
+  const [overallRating, setOverallRating] = useState(0);
+
   const shipping = `All orders are processed and shipped from our fulfillment 
   center in California, Monday through Friday, with the exception of public US 
   holidays. Domestic and international orders over $100 ship for FREE. 
@@ -58,6 +62,18 @@ export default function Product() {
     setQuantity((prev) => {
       return prev + 1;
     });
+  }
+
+  function handleWriteReviewClick() {
+    setReviewing(!reviewing);
+  }
+
+  function handleOverallRatingClick(e) {
+    setOverallRating(e.target.value);
+  }
+
+  function handleCloseModal() {
+    setReviewing(false);
   }
 
   return (
@@ -266,7 +282,7 @@ export default function Product() {
           </div>
         </div>
         <div className="product__write-a-review">
-          <button>Write a Review</button>
+          <button onClick={handleWriteReviewClick}>Write a Review</button>
         </div>
         <div className="product__reviews">
           <div className="product__review">
@@ -282,12 +298,6 @@ export default function Product() {
               <div className="product__review-content">
                 <p className="product__review-title">Review Title</p>
                 <p className="product__review-body">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit
-                  amet consectetur adipiscing elit quisque faucibus ex.
-                  Adipiscing elit quisque faucibus ex sapien vitae pellentesque.
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit
-                  amet consectetur adipiscing elit quisque faucibus ex.
-                  Adipiscing elit quisque faucibus ex sapien vitae pellentesque.
                   Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit
                   amet consectetur adipiscing elit quisque faucibus ex.
                   Adipiscing elit quisque faucibus ex sapien vitae pellentesque.
@@ -323,6 +333,83 @@ export default function Product() {
           </div>
         </div>
       </div>
+      {reviewing && (
+        <div className="product__write-review-overlay">
+          <div className="product__write-review">
+            <div className="product__close-write-review">
+              <button onClick={handleCloseModal}>
+                <X color="gray" />
+              </button>
+            </div>
+            <div className="product__review-form-heading">
+              <h1>Share your thoughts</h1>
+            </div>
+            <form className="product__review-form">
+              <div className="product__review-form-section">
+                <label htmlFor="overall-rating">Overall Rating</label>
+                <Rating
+                  name="overall-rating"
+                  value={overallRating}
+                  onChange={handleOverallRatingClick}
+                  size="large"
+                  sx={{ color: "black" }}
+                />
+              </div>
+              <div className="product__review-form-section">
+                <label htmlFor="title">Review Title</label>
+                <input type="text" id="title" name="title" />
+              </div>
+              <div className="product__review-form-section">
+                <label htmlFor="body">Review</label>
+                <textarea name="body" id="body" rows={6}></textarea>
+              </div>
+              <div className="product__review-form-section">
+                <p>Would you recommend this product to a friend?</p>
+                <div className="product__review-buttons">
+                  <label htmlFor="recs-yes">
+                    <input type="radio" id="recs-yes" name="recs" value="yes" />
+                    Yes
+                  </label>
+                  <label htmlFor="recs-no">
+                    <input type="radio" id="recs-no" name="recs" value="no" />
+                    No
+                  </label>
+                </div>
+              </div>
+              <div className="product__review-form-section">
+                <label htmlFor="name">Your Name</label>
+                <input type="text" id="name" name="name" />
+              </div>
+              <div className="product__review-form-section">
+                <p>Are you a verified buyer? (Click yes)</p>
+                <div className="product__review-buttons">
+                  <label htmlFor="verified-yes">
+                    <input
+                      type="radio"
+                      id="verified-yes"
+                      name="verified"
+                      value="yes"
+                    />
+                    Yes
+                  </label>
+                  <label htmlFor="verified-no">
+                    <input
+                      type="radio"
+                      id="verified-no"
+                      name="verified"
+                      value="no"
+                    />
+                    No
+                  </label>
+                </div>
+              </div>
+              <button className="product__review-form-submit">
+                Post Review
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
