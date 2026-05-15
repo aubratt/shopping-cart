@@ -12,11 +12,11 @@ export default function Footer() {
             <h4>SHOP</h4>
           </div>
           <div className="footer__list-items">
-            <Link to="shop/all" state={{ category: "all" }}>All</Link>
-            <Link to="shop/men" state={{ category: "men" }}>Men</Link>
-            <Link to="shop/women" state={{ category: "women" }}>Women</Link>
-            <Link to="shop/jewelry" state={{ category: "jewelry" }}>Jewelry</Link>
-            <Link to="shop/electronics" state={{ category: "electronics" }}>Electronics</Link>
+            <Link to="shop/all">All</Link>
+            <Link to="shop/men">Men</Link>
+            <Link to="shop/women">Women</Link>
+            <Link to="shop/jewelry">Jewelry</Link>
+            <Link to="shop/electronics">Electronics</Link>
           </div>
         </div>
         <div className="footer__list">

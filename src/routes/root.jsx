@@ -4,6 +4,7 @@ import { getProducts } from "../products";
 import AnnouncementBar from "../components/AnnouncementBar";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import ScrollToTop from "../components/ScrollToTop";
 
 export default function Root() {
   const [loading, setLoading] = useState(true);
@@ -28,7 +29,7 @@ export default function Root() {
           category: categoryMap[product.category] || product.category,
           reviews: [],
         }));
-        
+
         setProducts(formattedProducts);
         setError(null);
       } catch (error) {
@@ -43,9 +44,10 @@ export default function Root() {
 
   return (
     <>
+      <ScrollToTop />
       <AnnouncementBar />
       <NavBar category={category} />
-      <Outlet context={{ loading, error, products }} />
+        <Outlet context={{ loading, error, products }} />
       <Footer />
     </>
   );
