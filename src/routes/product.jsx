@@ -9,26 +9,41 @@ import {
   ThumbsUp,
   X,
 } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
 import OptionColor from "../components/OptionColor";
 import OptionSize from "../components/OptionSize";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GalleryImage from "../components/GalleryImage";
 import ProductDetail from "../components/ProductDetail";
 import RatingStars from "../components/RatingStars";
 import { Rating } from "@mui/material";
+import { getProducts } from "../products";
 
 export default function Product() {
-  const location = useLocation();
-  const product = location.state.product;
-  const category = product.category;
-  const unformattedCategory = getUnformattedCategory(category);
+  const { loading, setLoading, error, setError, products, setProducts } =
+    useOutletContext();
+  const { productId } = useParams();
+
+  const [product, setProduct] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState("black");
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [reviewing, setReviewing] = useState(false);
-  const [overallRating, setOverallRating] = useState(0);
+  const [review, setReview] = useState({
+    rating: "",
+    title: "",
+    body: "",
+    recommends: "",
+    verified: "",
+    name: "",
+  });
+  const [errors, setErrors] = useState({});
 
   const shipping = `All orders are processed and shipped from our fulfillment 
   center in California, Monday through Friday, with the exception of public US 
@@ -40,12 +55,37 @@ export default function Product() {
   sale/discounted items are FINAL SALE and cannot be returned/exchanged. All 
   other full-price items are eligible to be returned or exchanged for free. `;
 
-  function getUnformattedCategory(category) {
-    if (category === "men") return "men's clothing";
-    if (category === "women") return "women's clothing";
-    if (category === "jewelry") return "jewelery";
-    return category;
-  }
+  useEffect(() => {
+    if (!productId) return;
+
+    const fetchProductData = async () => {
+      try {
+        const productData = await getProducts(
+          `https://fakestoreapi.com/products/${productId}`,
+        );
+        const categoryMap = {
+          electronics: "electronics",
+          jewelery: "jewelry",
+          "men's clothing": "men",
+          "women's clothing": "women",
+        };
+        const formattedProduct = {
+          ...productData,
+          category: categoryMap[productData.category] || productData.category,
+          reviews: [],
+        };
+
+        setProduct(formattedProduct);
+        setError(null);
+      } catch (error) {
+        setError(error.message);
+        setProduct(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProductData();
+  }, [productId]);
 
   function capitalizeString(string) {
     return String(string).charAt(0).toUpperCase() + String(string).slice(1);
@@ -68,29 +108,82 @@ export default function Product() {
     setReviewing(!reviewing);
   }
 
-  function handleOverallRatingClick(e) {
-    setOverallRating(e.target.value);
-  }
-
   function handleCloseModal() {
     setReviewing(false);
+    setReview({
+      rating: "",
+      title: "",
+      body: "",
+      recommends: "",
+      verified: "",
+      name: "",
+    });
+    setErrors({});
   }
+
+  function handleReviewInputChange(e) {
+    setReview({
+      ...review,
+      [e.target.name]: e.target.value,
+    });
+
+    if (errors[e.target.name] && e.target.value.trim())
+      setErrors({ ...errors, [e.target.name]: null });
+  }
+
+  function handleReviewFormSubmit(e) {
+    e.preventDefault();
+
+    const newErrors = {};
+    Object.entries(review).forEach(([key, value]) => {
+      if (!value.trim()) newErrors[key] = "Please fill out this field";
+    });
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      const newReview = {
+        ...review,
+        date: new Date().toISOString(),
+        id: crypto.randomUUID(),
+      };
+
+      setReviewing(false);
+      setProduct({ ...product, reviews: [...product.reviews, newReview] });
+    }
+  }
+
+  function getTimeSince(date) {
+    const diff = Date.now() - new Date(date).getTime();
+
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const weeks = Math.floor(diff / (1000 * 60 * 60 * 24 * 7));
+    const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
+    const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+
+    if (seconds < 60) return `${seconds} second${seconds !== 1 ? "s" : ""} ago`;
+    if (minutes < 60) return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
+    if (hours < 24) return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
+    if (days < 7) return `${days} day${days !== 1 ? "s" : ""} ago`;
+    if (weeks < 4) return `${weeks} week${weeks !== 1 ? "s" : ""} ago`;
+    if (months < 12) return `${months} month${months !== 1 ? "s" : ""} ago`;
+
+    return `${years} year${years !== 1 ? "s" : ""} ago`;
+  }
+
+  if (!product) return <div>Loading...</div>;
 
   return (
     <div className="product">
       <div className="product__breadcrumbs">
-        <Link
-          to="/shop/all"
-          state={{ category: "all" }}
-          className="product__breadcrumb">
+        <Link to="/shop/all" className="product__breadcrumb">
           All
         </Link>
         <ChevronRight />
-        <Link
-          to={`/shop/${unformattedCategory}`}
-          state={{ category: product.category }}
-          className="product__breadcrumb">
-          {capitalizeString(category)}
+        <Link to={`/shop/${product.category}`} className="product__breadcrumb">
+          {capitalizeString(product.category)}
         </Link>
         <ChevronRight />
         <p>{product.title}</p>
@@ -285,52 +378,66 @@ export default function Product() {
           <button onClick={handleWriteReviewClick}>Write a Review</button>
         </div>
         <div className="product__reviews">
-          <div className="product__review">
-            <div className="product__review-main">
-              <div className="product__reviewer">
-                <p className="product__reviewer-username">username</p>
-                <div className="product__reviewer-verified">
-                  <p>Verified Buyer</p>
-                  <Check width="16px" />
+          {Object.keys(product.reviews).length === 0 && (
+            <div className="product__no-reviews">
+              <p>No written reviews</p>
+            </div>
+          )}
+          {product.reviews.map((review) => {
+            console.log(review);
+            return (
+              <div key={review.id} className="product__review">
+                <div className="product__review-main">
+                  <div className="product__reviewer">
+                    <p className="product__reviewer-username">{review.name}</p>
+                    {review.verified === "yes" && (
+                      <div className="product__reviewer-verified">
+                        <p>Verified Buyer</p>
+                        <Check width="16px" />
+                      </div>
+                    )}
+                  </div>
+                  <Rating
+                    defaultValue={review.rating}
+                    sx={{ color: "black" }}
+                    readOnly
+                  />
+                  <div className="product__review-content">
+                    <p className="product__review-title">{review.title}</p>
+                    <p className="product__review-body">{review.body}</p>
+                  </div>
+                  <div className="product__review-rec">
+                    <p className="product__review-rec-label">
+                      Recommends this product:{" "}
+                      <span className="product__review-rec-value">
+                        {capitalizeString(review.recommends)}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div className="product__review-details">
+                  <p className="product__review-date">
+                    {getTimeSince(review.date)}
+                  </p>
+                  <div className="product__review-helpful">
+                    <p className="product___review-helpful-label">Helpful?</p>
+                    <div className="product__review-helpful-buttons">
+                      <button className="product__review-helpful-button">
+                        <p>Yes</p>
+                        <ThumbsUp width="18px" />
+                        <p>21</p>
+                      </button>
+                      <button className="product__review-helpful-button">
+                        <p>No</p>
+                        <ThumbsDown width="18px" />
+                        <p>1</p>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <Rating defaultValue={5} sx={{ color: "black" }} readOnly />
-              <div className="product__review-content">
-                <p className="product__review-title">Review Title</p>
-                <p className="product__review-body">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit
-                  amet consectetur adipiscing elit quisque faucibus ex.
-                  Adipiscing elit quisque faucibus ex sapien vitae pellentesque.
-                </p>
-              </div>
-              <div className="product__review-rec">
-                <p className="product__review-rec-label">
-                  Recommends this product:{" "}
-                  <span className="product__review-rec-value">Yes</span>
-                </p>
-              </div>
-            </div>
-            <div className="product__review-details">
-              <p className="product__review-date">
-                x days/weeks/months/years ago
-              </p>
-              <div className="product__review-helpful">
-                <p className="product___review-helpful-label">Helpful?</p>
-                <div className="product__review-helpful-buttons">
-                  <button className="product__review-helpful-button">
-                    <p>Yes</p>
-                    <ThumbsUp width="18px" />
-                    <p>21</p>
-                  </button>
-                  <button className="product__review-helpful-button">
-                    <p>No</p>
-                    <ThumbsDown width="18px" />
-                    <p>1</p>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
       {reviewing && (
@@ -344,47 +451,88 @@ export default function Product() {
             <div className="product__review-form-heading">
               <h1>Share your thoughts</h1>
             </div>
-            <form className="product__review-form">
+            <form
+              onSubmit={handleReviewFormSubmit}
+              className="product__review-form">
               <div className="product__review-form-section">
-                <label htmlFor="overall-rating">Overall Rating</label>
+                <label htmlFor="overallRating">Overall Rating</label>
                 <Rating
-                  name="overall-rating"
-                  value={overallRating}
-                  onChange={handleOverallRatingClick}
+                  onChange={handleReviewInputChange}
+                  name="rating"
                   size="large"
                   sx={{ color: "black" }}
                 />
+                {errors.rating && (
+                  <span className="product__review-form-error">
+                    {errors.rating}
+                  </span>
+                )}
               </div>
               <div className="product__review-form-section">
                 <label htmlFor="title">Review Title</label>
-                <input type="text" id="title" name="title" />
+                <input
+                  onChange={handleReviewInputChange}
+                  type="text"
+                  id="title"
+                  name="title"
+                />
+                {errors.title && (
+                  <span className="product__review-form-error">
+                    {errors.title}
+                  </span>
+                )}
               </div>
               <div className="product__review-form-section">
                 <label htmlFor="body">Review</label>
-                <textarea name="body" id="body" rows={6}></textarea>
+                <textarea
+                  onChange={handleReviewInputChange}
+                  name="body"
+                  id="body"
+                  rows={6}></textarea>
+                {errors.body && (
+                  <span className="product__review-form-error">
+                    {errors.body}
+                  </span>
+                )}
               </div>
               <div className="product__review-form-section">
                 <p>Would you recommend this product to a friend?</p>
                 <div className="product__review-buttons">
-                  <label htmlFor="recs-yes">
-                    <input type="radio" id="recs-yes" name="recs" value="yes" />
+                  <label
+                    htmlFor="recs-yes"
+                    className={review.recommends === "yes" ? "selected" : ""}>
+                    <input
+                      onChange={handleReviewInputChange}
+                      type="radio"
+                      id="recs-yes"
+                      name="recommends"
+                      value="yes"
+                    />
                     Yes
                   </label>
                   <label htmlFor="recs-no">
-                    <input type="radio" id="recs-no" name="recs" value="no" />
+                    <input
+                      onChange={handleReviewInputChange}
+                      type="radio"
+                      id="recs-no"
+                      name="recommends"
+                      value="no"
+                    />
                     No
                   </label>
+                  {errors.recommends && (
+                    <span className="product__review-form-error">
+                      {errors.recommends}
+                    </span>
+                  )}
                 </div>
-              </div>
-              <div className="product__review-form-section">
-                <label htmlFor="name">Your Name</label>
-                <input type="text" id="name" name="name" />
               </div>
               <div className="product__review-form-section">
                 <p>Are you a verified buyer? (Click yes)</p>
                 <div className="product__review-buttons">
                   <label htmlFor="verified-yes">
                     <input
+                      onChange={handleReviewInputChange}
                       type="radio"
                       id="verified-yes"
                       name="verified"
@@ -394,6 +542,7 @@ export default function Product() {
                   </label>
                   <label htmlFor="verified-no">
                     <input
+                      onChange={handleReviewInputChange}
                       type="radio"
                       id="verified-no"
                       name="verified"
@@ -401,9 +550,28 @@ export default function Product() {
                     />
                     No
                   </label>
+                  {errors.verified && (
+                    <span className="product__review-form-error">
+                      {errors.verified}
+                    </span>
+                  )}
                 </div>
               </div>
-              <button className="product__review-form-submit">
+              <div className="product__review-form-section">
+                <label htmlFor="name">Your Name</label>
+                <input
+                  onChange={handleReviewInputChange}
+                  type="text"
+                  id="name"
+                  name="name"
+                />
+                {errors.name && (
+                  <span className="product__review-form-error">
+                    {errors.name}
+                  </span>
+                )}
+              </div>
+              <button type="submit" className="product__review-form-submit">
                 Post Review
               </button>
             </form>

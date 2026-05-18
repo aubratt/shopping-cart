@@ -15,7 +15,7 @@ export default function Shop() {
     if (category !== "all")
       result = result.filter((product) => product.category === category);
 
-    if (sortMethod === "default") result.sort((a, b) => a.id - b.id)
+    if (sortMethod === "default") result.sort((a, b) => a.id - b.id);
     if (sortMethod === "price-lo-hi") result.sort((a, b) => a.price - b.price);
     if (sortMethod === "price-hi-lo") result.sort((a, b) => b.price - a.price);
     if (sortMethod === "rating-lo-hi")
@@ -69,12 +69,7 @@ export default function Shop() {
           displayedProducts.map((product) => {
             const price = Number(product?.price).toFixed(2);
             return (
-              <Link
-                key={product?.id}
-                to={`/product/${product.id}`}
-                state={{
-                  product: product,
-                }}>
+              <Link key={product?.id} to={`/product/${product.id}`}>
                 <div className="shop__product">
                   <div className="shop__product-image">
                     <img src={product?.image} alt={product?.title} />

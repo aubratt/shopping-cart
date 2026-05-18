@@ -47,7 +47,16 @@ export default function Root() {
       <ScrollToTop />
       <AnnouncementBar />
       <NavBar category={category} />
-        <Outlet context={{ loading, error, products }} />
+      <Outlet
+        context={{
+          loading,
+          setLoading,
+          error,
+          setError,
+          products,
+          setProducts,
+        }}
+      />
       <Footer />
     </>
   );

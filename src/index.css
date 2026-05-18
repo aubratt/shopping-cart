@@ -87,6 +87,7 @@ h6 {
   --text-gray: #666666;
   --text-dark: black;
   --success: #86bfa6;
+  --danger: firebrick;
   --inactive: rgba(254, 250, 224, 0.1);
 }
 
@@ -618,6 +619,13 @@ button:hover {
   border-top: 1px solid var(--border);
   width: 100%;
 }
+.product__no-reviews {
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.product__no-reviews p {
+  padding: 2rem 0;
+}
 .product__review {
   display: flex;
   justify-content: space-between;
@@ -660,6 +668,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  text-align: end;
 }
 .product__review-date {
   color: var(--text-gray);
@@ -757,6 +766,11 @@ button:hover {
 }
 .product__review-form-submit {
   align-self: center;
+}
+.product__review-form-error {
+  color: var(--danger);
+  font-size: 0.875rem;
+  font-weight: normal;
 }
 
 .product__breadcrumb:hover {
