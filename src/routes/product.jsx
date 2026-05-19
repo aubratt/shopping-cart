@@ -30,8 +30,12 @@ export default function Product() {
   const { productId } = useParams();
 
   const [product, setProduct] = useState(null);
+  const [options, setOptions] = useState({
+    color: "black",
+    size: "",
+    quantity: 1,
+  });
   const [currentImage, setCurrentImage] = useState(0);
-  const [selectedColor, setSelectedColor] = useState("black");
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [reviewing, setReviewing] = useState(false);
@@ -45,6 +49,18 @@ export default function Product() {
   });
   const [errors, setErrors] = useState({});
 
+  const colors = [
+    "black",
+    "gray",
+    "white",
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "blue",
+    "purple",
+  ];
+  const sizes = ["xs", "s", "m", "l", "xl", "2xl", "3xl"];
   const shipping = `All orders are processed and shipped from our fulfillment 
   center in California, Monday through Friday, with the exception of public US 
   holidays. Domestic and international orders over $100 ship for FREE. 
@@ -89,6 +105,10 @@ export default function Product() {
 
   function capitalizeString(string) {
     return String(string).charAt(0).toUpperCase() + String(string).slice(1);
+  }
+
+  function handleColorClick(e) {
+    setOptions({ ...options, color: e.target.value });
   }
 
   function handleMinusClick() {
@@ -233,59 +253,36 @@ export default function Product() {
               </div>
             </div>
           </div>
-          <div className="product__option">
-            <div className="product__selected-option">
-              <p className="product__option-label">Color:</p>
-              <p>{capitalizeString(selectedColor)}</p>
+
+          <form>
+            <div className="product__option">
+              <div className="product__selected-option">
+                <p className="product__option-label">Color:</p>
+                <p>{capitalizeString(options.color)}</p>
+              </div>
+              <div className="product__options-color">
+                {colors.map((color) => {
+                  const selected = options.color === color;
+                  return (
+                    <div
+                      key={color}
+                      className={`product__option-color ${selected ? "selected" : ""}`}>
+                      <label htmlFor={color}>
+                        <input
+                          onClick={handleColorClick}
+                          type="radio"
+                          id={color}
+                          name="color"
+                          value={color}
+                          style={{ backgroundColor: color }}
+                        />
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="product__options-color">
-              <OptionColor
-                color="black"
-                selectedColor={selectedColor}
-                setSelectedColor={setSelectedColor}
-              />
-              <OptionColor
-                color="gray"
-                selectedColor={selectedColor}
-                setSelectedColor={setSelectedColor}
-              />
-              <OptionColor
-                color="white"
-                selectedColor={selectedColor}
-                setSelectedColor={setSelectedColor}
-              />
-              <OptionColor
-                color="red"
-                selectedColor={selectedColor}
-                setSelectedColor={setSelectedColor}
-              />
-              <OptionColor
-                color="orange"
-                selectedColor={selectedColor}
-                setSelectedColor={setSelectedColor}
-              />
-              <OptionColor
-                color="yellow"
-                selectedColor={selectedColor}
-                setSelectedColor={setSelectedColor}
-              />
-              <OptionColor
-                color="green"
-                selectedColor={selectedColor}
-                setSelectedColor={setSelectedColor}
-              />
-              <OptionColor
-                color="blue"
-                selectedColor={selectedColor}
-                setSelectedColor={setSelectedColor}
-              />
-              <OptionColor
-                color="purple"
-                selectedColor={selectedColor}
-                setSelectedColor={setSelectedColor}
-              />
-            </div>
-          </div>
+          </form>
           <div className="product__option">
             <div className="product__selected-option">
               <p className="product__option-label">Size:</p>
@@ -498,9 +495,7 @@ export default function Product() {
               <div className="product__review-form-section">
                 <p>Would you recommend this product to a friend?</p>
                 <div className="product__review-buttons">
-                  <label
-                    htmlFor="recs-yes"
-                    className={review.recommends === "yes" ? "selected" : ""}>
+                  <label htmlFor="recs-yes">
                     <input
                       onChange={handleReviewInputChange}
                       type="radio"
