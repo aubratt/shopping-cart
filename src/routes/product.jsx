@@ -15,7 +15,6 @@ import {
   useOutletContext,
   useParams,
 } from "react-router-dom";
-import OptionColor from "../components/OptionColor";
 import OptionSize from "../components/OptionSize";
 import { useEffect, useState } from "react";
 import GalleryImage from "../components/GalleryImage";
@@ -30,13 +29,12 @@ export default function Product() {
   const { productId } = useParams();
 
   const [product, setProduct] = useState(null);
+  const [currentImage, setCurrentImage] = useState(0);
   const [options, setOptions] = useState({
     color: "black",
     size: "",
     quantity: 1,
   });
-  const [currentImage, setCurrentImage] = useState(0);
-  const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [reviewing, setReviewing] = useState(false);
   const [review, setReview] = useState({
@@ -107,10 +105,6 @@ export default function Product() {
     return String(string).charAt(0).toUpperCase() + String(string).slice(1);
   }
 
-  function handleColorClick(e) {
-    setOptions({ ...options, color: e.target.value });
-  }
-
   function handleMinusClick() {
     if (quantity > 1)
       setQuantity((prev) => {
@@ -122,6 +116,10 @@ export default function Product() {
     setQuantity((prev) => {
       return prev + 1;
     });
+  }
+
+  function handleAddToCart(e) {
+    e.preventDefault();
   }
 
   function handleWriteReviewClick() {
@@ -253,8 +251,7 @@ export default function Product() {
               </div>
             </div>
           </div>
-
-          <form>
+          <form onSubmit={handleAddToCart} className="product__options">
             <div className="product__option">
               <div className="product__selected-option">
                 <p className="product__option-label">Color:</p>
@@ -269,7 +266,9 @@ export default function Product() {
                       className={`product__option-color ${selected ? "selected" : ""}`}>
                       <label htmlFor={color}>
                         <input
-                          onClick={handleColorClick}
+                          onChange={(e) =>
+                            setOptions({ ...options, color: e.target.value })
+                          }
                           type="radio"
                           id={color}
                           name="color"
@@ -282,64 +281,50 @@ export default function Product() {
                 })}
               </div>
             </div>
+            <div className="product__option">
+              <div className="product__selected-option">
+                <p className="product__option-label">Size:</p>
+                <p>{options.size.toUpperCase()}</p>
+              </div>
+              <div className="product__options-size">
+                {sizes.map((size) => {
+                  const selected = options.size === size;
+                  return (
+                    <div
+                      key={size}
+                      className={`product__option-size ${selected ? "selected" : ""}`}>
+                      <label htmlFor={size}>
+                        <input
+                          onChange={(e) =>
+                            setOptions({ ...options, size: e.target.value })
+                          }
+                          type="radio"
+                          id={size}
+                          name="size"
+                          value={size}
+                        />
+                        {size.toUpperCase()}
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="product__purchase-controls">
+              <div className="product__quantity">
+                <button onClick={handleMinusClick}>
+                  <Minus width="16px" />
+                </button>
+                <p>{quantity}</p>
+                <button onClick={handlePlusClick}>
+                  <Plus width="16px" />
+                </button>
+              </div>
+              <div className="product__add-to-cart">
+                <button type="submit">Add to Cart</button>
+              </div>
+            </div>
           </form>
-          <div className="product__option">
-            <div className="product__selected-option">
-              <p className="product__option-label">Size:</p>
-              <p>{selectedSize}</p>
-            </div>
-            <div className="product__options-size">
-              <OptionSize
-                size="XS"
-                selectedSize={selectedSize}
-                setSelectedSize={setSelectedSize}
-              />
-              <OptionSize
-                size="S"
-                selectedSize={selectedSize}
-                setSelectedSize={setSelectedSize}
-              />
-              <OptionSize
-                size="M"
-                selectedSize={selectedSize}
-                setSelectedSize={setSelectedSize}
-              />
-              <OptionSize
-                size="L"
-                selectedSize={selectedSize}
-                setSelectedSize={setSelectedSize}
-              />
-              <OptionSize
-                size="XL"
-                selectedSize={selectedSize}
-                setSelectedSize={setSelectedSize}
-              />
-              <OptionSize
-                size="2XL"
-                selectedSize={selectedSize}
-                setSelectedSize={setSelectedSize}
-              />
-              <OptionSize
-                size="3XL"
-                selectedSize={selectedSize}
-                setSelectedSize={setSelectedSize}
-              />
-            </div>
-          </div>
-          <div className="product__purchase-controls">
-            <div className="product__quantity">
-              <button onClick={handleMinusClick}>
-                <Minus width="16px" />
-              </button>
-              <p>{quantity}</p>
-              <button onClick={handlePlusClick}>
-                <Plus width="16px" />
-              </button>
-            </div>
-            <div className="product__add-to-cart">
-              <button>Add to Cart</button>
-            </div>
-          </div>
           <div className="product__details">
             <ProductDetail
               heading="Description"
