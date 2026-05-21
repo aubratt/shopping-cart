@@ -569,7 +569,6 @@ button:hover {
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
-  text-align: center;
   padding: 0.5rem 0;
 }
 .product__quantity button {
@@ -579,8 +578,16 @@ button:hover {
   display: block;
   margin: 0 0.5rem;
 }
-.product__quantity p {
-  width: 24px;
+.product__quantity input {
+  background-color: var(--surface);
+  border: none;
+  text-align: center;
+  width: 100%;
+}
+.product__quantity input::-webkit-outer-spin-button,
+.product__quantity input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .product__add-to-cart button {
   all: unset;

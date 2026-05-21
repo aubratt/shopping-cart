@@ -15,7 +15,6 @@ import {
   useOutletContext,
   useParams,
 } from "react-router-dom";
-import OptionSize from "../components/OptionSize";
 import { useEffect, useState } from "react";
 import GalleryImage from "../components/GalleryImage";
 import ProductDetail from "../components/ProductDetail";
@@ -35,7 +34,6 @@ export default function Product() {
     size: "",
     quantity: 1,
   });
-  const [quantity, setQuantity] = useState(1);
   const [reviewing, setReviewing] = useState(false);
   const [review, setReview] = useState({
     rating: "",
@@ -106,16 +104,12 @@ export default function Product() {
   }
 
   function handleMinusClick() {
-    if (quantity > 1)
-      setQuantity((prev) => {
-        return prev - 1;
-      });
+    if (options.quantity > 1)
+      setOptions({ ...options, quantity: options.quantity - 1 });
   }
 
   function handlePlusClick() {
-    setQuantity((prev) => {
-      return prev + 1;
-    });
+    setOptions({ ...options, quantity: options.quantity + 1 });
   }
 
   function handleAddToCart(e) {
@@ -315,7 +309,13 @@ export default function Product() {
                 <button onClick={handleMinusClick}>
                   <Minus width="16px" />
                 </button>
-                <p>{quantity}</p>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  value={options.quantity}
+                  readOnly
+                />
                 <button onClick={handlePlusClick}>
                   <Plus width="16px" />
                 </button>
