@@ -11,6 +11,7 @@ export default function Root() {
   const [error, setError] = useState(null);
   const [products, setProducts] = useState(null);
   const [category, setCategory] = useState("all");
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const fetchProductsData = async () => {
@@ -55,6 +56,8 @@ export default function Root() {
           setError,
           products,
           setProducts,
+          cart,
+          setCart,
         }}
       />
       <Footer />

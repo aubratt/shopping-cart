@@ -23,15 +23,23 @@ import { Rating } from "@mui/material";
 import { getProducts } from "../products";
 
 export default function Product() {
-  const { loading, setLoading, error, setError, products, setProducts } =
-    useOutletContext();
+  const {
+    loading,
+    setLoading,
+    error,
+    setError,
+    products,
+    setProducts,
+    cart,
+    setCart,
+  } = useOutletContext();
   const { productId } = useParams();
 
   const [product, setProduct] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
   const [options, setOptions] = useState({
     color: "black",
-    size: "",
+    size: "xs",
     quantity: 1,
   });
   const [reviewing, setReviewing] = useState(false);
@@ -114,6 +122,7 @@ export default function Product() {
 
   function handleAddToCart(e) {
     e.preventDefault();
+    setCart([...cart, { ...options, productId }]);
   }
 
   function handleWriteReviewClick() {
