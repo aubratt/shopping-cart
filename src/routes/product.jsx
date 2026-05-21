@@ -42,6 +42,7 @@ export default function Product() {
     size: "xs",
     quantity: 1,
   });
+  const [justAdded, setJustAdded] = useState(false);
   const [reviewing, setReviewing] = useState(false);
   const [review, setReview] = useState({
     rating: "",
@@ -122,6 +123,7 @@ export default function Product() {
 
   function handleAddToCart(e) {
     e.preventDefault();
+    setJustAdded(true);
     setCart([...cart, { ...options, productId }]);
   }
 
@@ -130,6 +132,7 @@ export default function Product() {
   }
 
   function handleCloseModal() {
+    setJustAdded(false);
     setReviewing(false);
     setReview({
       rating: "",
@@ -431,6 +434,40 @@ export default function Product() {
           })}
         </div>
       </div>
+
+      {justAdded && (
+        <div className="product__just-added-overlay">
+          <div className="product__just-added">
+            <div className="product__just-added-heading">
+              <h2>Added to Cart</h2>
+              <button onClick={handleCloseModal}>
+                <X color="gray" />
+              </button>
+            </div>
+            <div className="product__just-added-content">
+              <div className="product__just-added-image">
+                <img src={product.image} alt="" />
+              </div>
+              <div className="product__just-added-details">
+                <div className="product__just-added-subheading">
+                  <h3>{product.title}</h3>
+                  <p>${product.price}</p>
+                </div>
+                <div className="product__just-added-options">
+                  <p>Color: {capitalizeString(options.color)}</p>
+                  <p>Size: {options.size.toUpperCase()}</p>
+                  <p>Quantity: {options.quantity}</p>
+                </div>
+              </div>
+            </div>
+            <div className="product__just-added-actions">
+             <Link to="/cart"><button>Checkout</button></Link>
+              <button onClick={handleCloseModal}>Continue Shopping</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {reviewing && (
         <div className="product__write-review-overlay">
           <div className="product__write-review">
