@@ -123,8 +123,23 @@ export default function Product() {
 
   function handleAddToCart(e) {
     e.preventDefault();
+
+    let cartUpdated = false;
+    setCart(
+      cart.map((item) => {
+        if (
+          String(product.id) === String(item.productId) &&
+          options.color === item.color &&
+          options.size === item.size
+        ) {
+          cartUpdated = true;
+          return { ...item, quantity: item.quantity + options.quantity };
+        }
+      }),
+    );
+    if (!cartUpdated) setCart([...cart, { ...options, productId }]);
+
     setJustAdded(true);
-    setCart([...cart, { ...options, productId }]);
   }
 
   function handleWriteReviewClick() {
