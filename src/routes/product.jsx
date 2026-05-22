@@ -248,7 +248,7 @@ export default function Product() {
           <div className="product__heading">
             <h1>{product.title}</h1>
             <div className="product__subheading">
-              <p className="product__price">${product.price}</p>
+              <p className="product__price">${product.price.toFixed(2)}</p>
               <div className="product__rating">
                 <RatingStars product={product} />
                 <p className="product__review-count">
@@ -461,7 +461,9 @@ export default function Product() {
               </div>
             </div>
             <div className="product__just-added-actions">
-             <Link to="/cart"><button>Checkout</button></Link>
+              <Link to="/cart">
+                <button>Checkout</button>
+              </Link>
               <button onClick={handleCloseModal}>Continue Shopping</button>
             </div>
           </div>

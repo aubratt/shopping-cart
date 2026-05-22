@@ -462,6 +462,8 @@ button:hover {
   max-width: 100%;
 }
 .product__current-image {
+  position: relative;
+  display: inline-block;
   width: 100%;
   height: 600px;
 }
@@ -715,7 +717,6 @@ button:hover {
   font-size: 0.875rem;
   padding: 0 0.5rem;
 }
-
 .product__just-added-overlay {
   display: flex;
   align-items: end;
@@ -784,7 +785,6 @@ button:hover {
   justify-content: center;
   width: 10rem;
 }
-
 .product__write-review-overlay {
   position: fixed;
   z-index: 1;
@@ -910,6 +910,97 @@ button:hover {
   cursor: pointer;
   background-color: var(--surface);
   border: 1px solid var(--border);
+}
+
+/* Cart Page */
+.cart {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: 4rem;
+  max-width: 1440px;
+  margin: auto;
+  padding: 2rem 4rem;
+}
+.cart__summary {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+.cart__heading h1 {
+  line-height: 1;
+}
+.cart__items {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+.cart__empty {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+.cart__item {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  column-gap: 2rem;
+}
+.cart__item-heading {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 2rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+.cart__item-image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  width: 10rem;
+  height: 10rem;
+  padding: 1rem;
+}
+.cart__item-color {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-top: 5rem solid var(--border);
+  border-right: 5rem solid transparent;
+  border-top-left-radius: 1rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.25));
+}
+.cart__item-image img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+.cart__order-summary-content {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+.cart__order-summary-line {
+  display: flex;
+  justify-content: space-between;
+}
+.cart__order-summary-content hr {
+  margin: 0.5rem 0;
+}
+.cart__order-estimated-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+.cart__checkout {
+  text-align: center;
+  width: 100%;
+  padding: 0.5rem 0;
 }
 
 /* Footer */
