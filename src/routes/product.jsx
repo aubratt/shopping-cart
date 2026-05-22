@@ -461,6 +461,9 @@ export default function Product() {
             </div>
             <div className="product__just-added-content">
               <div className="product__just-added-image">
+                <div
+                    className="product__just-added-color"
+                    style={{ borderTop: `80px solid ${options.color}` }}></div>
                 <img src={product.image} alt="" />
               </div>
               <div className="product__just-added-details">
