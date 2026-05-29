@@ -27,7 +27,7 @@ export default function Root() {
         };
         const formattedProducts = productsData.map((product) => ({
           ...product,
-          price: product.price.toFixed(2), 
+          price: product.price.toFixed(2),
           category: categoryMap[product.category] || product.category,
           reviews: [],
         }));
@@ -48,7 +48,7 @@ export default function Root() {
     <>
       <ScrollToTop />
       <AnnouncementBar />
-      <NavBar category={category} />
+      <NavBar cart={cart} />
       <Outlet
         context={{
           loading,

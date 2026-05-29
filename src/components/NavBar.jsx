@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ShoppingCart, SquareUserRound } from "lucide-react";
 
-export default function NavBar() {
+export default function NavBar({ cart }) {
   return (
     <div className="nav-bar">
       <div className="nav-bar__business">
@@ -24,7 +24,7 @@ export default function NavBar() {
         </Link>
         <Link to="cart">
           <ShoppingCart />
-          <p>Cart</p>
+          <p>Cart ({cart.length})</p>
         </Link>
       </div>
     </div>
