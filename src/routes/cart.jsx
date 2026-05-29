@@ -15,8 +15,8 @@ export default function Cart() {
         Number(item.quantity),
     0,
   );
-  const shipping = 0;
-  const tax = 0;
+  const shipping = subtotal < 100 ? 9.99 : 0;
+  const tax = subtotal * 0.05;
   const total = subtotal + shipping + tax;
 
   function handleMinusClick(e) {
@@ -132,11 +132,11 @@ export default function Cart() {
           </div>
           <div className="cart__order-summary-line">
             <p>Estimated Shipping (free over $100):</p>
-            <p>FREE</p>
+            <p>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</p>
           </div>
           <div className="cart__order-summary-line">
             <p>Estimated Tax:</p>
-            <p>--</p>
+            <p>${tax.toFixed(2)}</p>
           </div>
           <hr />
           <div className="cart__order-estimated-total">

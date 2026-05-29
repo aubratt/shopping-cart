@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { ShoppingCart, SquareUserRound } from "lucide-react";
 
 export default function NavBar({ cart }) {
+  const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+
   return (
     <div className="nav-bar">
       <div className="nav-bar__business">
@@ -24,7 +26,7 @@ export default function NavBar({ cart }) {
         </Link>
         <Link to="cart">
           <ShoppingCart />
-          <p>Cart ({cart.length})</p>
+          <p>Cart ({totalQuantity})</p>
         </Link>
       </div>
     </div>
