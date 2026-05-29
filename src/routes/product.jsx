@@ -133,11 +133,15 @@ export default function Product() {
           options.size === item.size
         ) {
           cartUpdated = true;
-          return { ...item, quantity: item.quantity + options.quantity };
+          return {
+            ...item,
+            quantity: item.quantity + options.quantity,
+          };
         }
       }),
     );
-    if (!cartUpdated) setCart([...cart, { ...options, productId }]);
+    if (!cartUpdated)
+      setCart([...cart, { ...options, productId, id: crypto.randomUUID() }]);
 
     setJustAdded(true);
   }
@@ -462,8 +466,8 @@ export default function Product() {
             <div className="product__just-added-content">
               <div className="product__just-added-image">
                 <div
-                    className="product__just-added-color"
-                    style={{ borderTop: `80px solid ${options.color}` }}></div>
+                  className="product__just-added-color"
+                  style={{ borderTop: `80px solid ${options.color}` }}></div>
                 <img src={product.image} alt="" />
               </div>
               <div className="product__just-added-details">

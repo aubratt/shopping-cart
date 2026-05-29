@@ -1,4 +1,4 @@
-import { Frown, ShoppingCart } from "lucide-react";
+import { Frown, Minus, Plus, ShoppingCart, Trash, Trash2 } from "lucide-react";
 import { useOutletContext } from "react-router-dom";
 
 // Use localforage here for cart data
@@ -18,6 +18,14 @@ export default function Cart() {
   const shipping = 0;
   const tax = 0;
   const total = subtotal + shipping + tax;
+
+  function handleMinusClick(e) {
+    console.log(e.target);
+  }
+
+  function handlePlusClick(e) {}
+
+  function handleDelete(e) {}
 
   function capitalizeString(string) {
     return String(string).charAt(0).toUpperCase() + String(string).slice(1);
@@ -48,15 +56,64 @@ export default function Cart() {
                     style={{ borderTop: `80px solid ${item.color}` }}></div>
                   <img src={product.image} alt="" />
                 </div>
-                <div className="cart__item-details">
+                <div className="cart__item-info">
                   <div className="cart__item-heading">
                     <p>{product.title}</p>
-                    <p>${product.price}</p>
+                    <p>${Number(product.price * item.quantity).toFixed(2)}</p>
                   </div>
                   <div className="cart__item-options">
-                    <p>Color: {capitalizeString(item.color)}</p>
-                    <p>Size: {item.size.toUpperCase()}</p>
-                    <p>Quantity: {item.quantity}</p>
+                    <div className="cart__item-details">
+                      <p>Color: {capitalizeString(item.color)}</p>
+                      <p>Size: {item.size.toUpperCase()}</p>
+                      <p>Price: ${Number(product.price).toFixed(2)}</p>
+                      <div className="cart__item-quantity-wrapper">
+                        <p>Quantity:</p>
+                        <div className="cart__item-quantity">
+                          <button
+                            onClick={() =>
+                              setCart(
+                                cart.map((i) => {
+                                  if (item.id === i.id && i.quantity > 1) {
+                                    return { ...i, quantity: i.quantity - 1 };
+                                  } else return { ...i };
+                                }),
+                              )
+                            }>
+                            <Minus width="16px" />
+                          </button>
+                          <input
+                            type="number"
+                            id="quantity"
+                            name="quantity"
+                            value={item.quantity}
+                            readOnly
+                          />
+                          <button
+                            onClick={() =>
+                              setCart(
+                                cart.map((i) => {
+                                  if (item.id === i.id) {
+                                    return { ...i, quantity: i.quantity + 1 };
+                                  } else return { ...i };
+                                }),
+                              )
+                            }>
+                            <Plus width="16px" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="cart__item-actions">
+                      <button
+                        onClick={() =>
+                          setCart((prev) => {
+                            return prev.filter((i) => item.id !== i.id);
+                          })
+                        }
+                        className="cart__item-delete">
+                        <Trash2 />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -71,7 +128,7 @@ export default function Cart() {
         <div className="cart__order-summary-content">
           <div className="cart__order-summary-line">
             <p>Subtotal:</p>
-            <p>${subtotal}</p>
+            <p>${subtotal.toFixed(2)}</p>
           </div>
           <div className="cart__order-summary-line">
             <p>Estimated Shipping (free over $100):</p>
@@ -84,7 +141,7 @@ export default function Cart() {
           <hr />
           <div className="cart__order-estimated-total">
             <p>Estimated Total:</p>
-            <p>${total}</p>
+            <p>${total.toFixed(2)}</p>
           </div>
         </div>
         <button className="cart__checkout">Checkout</button>
