@@ -337,7 +337,7 @@ export default function Product() {
             </div>
             <div className="product__purchase-controls">
               <div className="product__quantity">
-                <button onClick={handleMinusClick}>
+                <button type="button" onClick={handleMinusClick}>
                   <Minus width="16px" />
                 </button>
                 <input
@@ -347,7 +347,7 @@ export default function Product() {
                   value={options.quantity}
                   readOnly
                 />
-                <button onClick={handlePlusClick}>
+                <button type="button" onClick={handlePlusClick}>
                   <Plus width="16px" />
                 </button>
               </div>
