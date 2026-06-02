@@ -278,35 +278,35 @@ button:hover {
   background-color: var(--elevated);
 }
 
-/* Register Section */
-.register {
+/* Register Promo */
+.register-promo {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem;
 }
-.register__heading {
+.register-promo__heading {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
-.register__heading h2 {
+.register-promo__heading h2 {
   font-family: "Sometimes Times";
   font-size: 4rem;
   font-style: italic;
   font-weight: normal;
   line-height: 4rem;
 }
-.register__heading p {
+.register-promo__heading p {
   max-width: 600px;
 }
-.register__perks {
+.register-promo__perks {
   display: flex;
   gap: 3rem;
   padding: 2rem;
 }
-.register__perk {
+.register-promo__perk {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -316,7 +316,7 @@ button:hover {
   text-align: center;
   max-width: 100px;
 }
-.register__perk-icon {
+.register-promo__perk-icon {
   align-self: flex-start;
   justify-self: center;
   background-color: var(--elevated);
@@ -324,14 +324,14 @@ button:hover {
   margin: auto;
   padding: 0.5rem;
 }
-.register__perk-icon svg {
+.register-promo__perk-icon svg {
   display: block;
   max-width: 100%;
   border: 2px dashed var(--text-light);
   border-radius: 50%;
   padding: 0.5rem;
 }
-.register__button button {
+.register-promo__button button {
   display: flex;
 }
 
@@ -1069,6 +1069,69 @@ button:hover {
   background-color: var(--background);
 }
 
+/* Register */
+.register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 4rem;
+}
+.register__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.register__inputs {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.register__inputs input {
+  all: unset;
+  border-bottom: 1px solid var(--border);
+  width: 350px;
+  padding-bottom: 0.25rem;
+}
+
+/* Login */
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 4rem;
+}
+.login__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  margin-bottom: 0.5rem;
+}
+.login__inputs {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.login__inputs input {
+  all: unset;
+  border-bottom: 1px solid var(--border);
+  width: 350px;
+  padding-bottom: 0.25rem;
+}
+.login__register {
+  display: flex;
+  column-gap: 0.5rem;
+}
+.login__register button {
+  all: unset;
+}
+
+/* Profile */
+.profile {
+  padding: 2rem 4rem;
+}
 
 /* Footer */
 .footer {

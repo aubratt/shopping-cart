@@ -1,6 +1,6 @@
 import Hero from "../components/Hero";
 import Categories from "../components/Categories";
-import Register from "../components/Register";
+import RegisterPromo from "../components/RegisterPromo";
 import { useOutletContext } from "react-router-dom";
 
 export default function Index() {
@@ -8,7 +8,7 @@ export default function Index() {
     <>
       <Hero />
       <Categories />
-      <Register />
+      <RegisterPromo />
     </>
   );
 }

@@ -8,9 +8,11 @@ import Index from "./routes/index";
 import Company from "./routes/company";
 import Help from "./routes/help";
 import Shop from "./routes/shop";
-import Account from "./routes/account";
 import Cart from "./routes/cart";
 import Product from "./routes/product";
+import Register from "./routes/register";
+import Login from "./routes/login";
+import Profile from "./routes/profile";
 
 const router = createBrowserRouter([
   {
@@ -42,12 +44,20 @@ const router = createBrowserRouter([
             element: <Product />,
           },
           {
-            path: "account",
-            element: <Account />,
-          },
-          {
             path: "cart",
             element: <Cart />,
+          },
+          {
+            path: "register",
+            element: <Register />,
+          },
+          {
+            path: "login",
+            element: <Login />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
           },
         ],
       },
@@ -57,6 +67,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-      <RouterProvider router={router} />
+    <RouterProvider router={router} />
   </React.StrictMode>,
 );

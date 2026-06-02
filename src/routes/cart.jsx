@@ -128,20 +128,20 @@ export default function Cart() {
         <div className="cart__order-summary-content">
           <div className="cart__order-summary-line">
             <p>Subtotal:</p>
-            <p>${subtotal.toFixed(2)}</p>
+            <p>{cart.length ? `$${subtotal.toFixed(2)}` : "--"}</p>
           </div>
           <div className="cart__order-summary-line">
             <p>Estimated Shipping (free over $100):</p>
-            <p>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</p>
+            <p>{cart.length ? `$${shipping.toFixed(2)}` : "--"}</p>
           </div>
           <div className="cart__order-summary-line">
             <p>Estimated Tax:</p>
-            <p>${tax.toFixed(2)}</p>
+            <p>{cart.length ? `$${tax.toFixed(2)}` : "--"}</p>
           </div>
           <hr />
           <div className="cart__order-estimated-total">
             <p>Estimated Total:</p>
-            <p>${total.toFixed(2)}</p>
+            <p>{cart.length ? `$${total.toFixed(2)}` : "--"}</p>
           </div>
         </div>
         <button className="cart__checkout">Checkout</button>
