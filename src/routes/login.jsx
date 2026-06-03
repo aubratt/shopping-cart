@@ -1,8 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
+  const { setCurrentUser } = useOutletContext();
   const navigate = useNavigate();
 
   function handleSubmit(e) {
@@ -26,7 +27,8 @@ export default function Login() {
     )
       .then((userCredential) => {
         const user = userCredential.user;
-        navigate("/profile");
+        setCurrentUser(user);
+        navigate("/profile/account");
       })
       .catch((error) => {
         const errorCode = error.code;

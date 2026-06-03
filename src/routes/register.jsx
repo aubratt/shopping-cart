@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 
 export default function Register() {
-  const { setUser } = useOutletContext();
+  const { setCurrentUser } = useOutletContext();
 
   function handleSubmit(e) {
     e.preventDefault();

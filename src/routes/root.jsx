@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import { getProducts } from "../products";
 
@@ -17,6 +17,7 @@ export default function Root() {
   const [products, setProducts] = useState(null);
   const [category, setCategory] = useState("all");
   const [cart, setCart] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const firebaseConfig = {
     apiKey: "AIzaSyAV8Q35CTUxE8NPW4MvaMCN5miAAFLi9Qo",
@@ -28,7 +29,15 @@ export default function Root() {
   };
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const user = auth.currentUser;
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setCurrentUser(user);
+    } else {
+      setCurrentUser(null);
+    }
+  });
+
+  // const user = auth.currentUser;
 
   useEffect(() => {
     const fetchProductsData = async () => {
@@ -65,7 +74,7 @@ export default function Root() {
     <>
       <ScrollToTop />
       <AnnouncementBar />
-      <NavBar cart={cart} user={user} />
+      <NavBar cart={cart} currentUser={currentUser} />
       <Outlet
         context={{
           loading,
@@ -76,7 +85,8 @@ export default function Root() {
           setProducts,
           cart,
           setCart,
-          user
+          currentUser,
+          setCurrentUser,
         }}
       />
       <Footer />

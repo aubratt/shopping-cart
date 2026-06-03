@@ -1132,6 +1132,29 @@ button:hover {
 .profile {
   padding: 2rem 4rem;
 }
+.profile__navbar {
+  display: flex;
+  justify-content: space-between;
+}
+.profile__pages {
+  display: flex;
+  column-gap: 1rem;
+}
+.profile__current-page {
+  cursor: default;
+  font-weight: bold;
+}
+.profile__page {
+  border-bottom: 1px solid var(--background);
+}
+.profile__logout button {
+  all: unset;
+  cursor: pointer;
+}
+
+.profile__page:hover {
+  border-bottom: 1px solid var(--border);
+}
 
 /* Footer */
 .footer {

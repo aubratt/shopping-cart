@@ -13,6 +13,7 @@ import Product from "./routes/product";
 import Register from "./routes/register";
 import Login from "./routes/login";
 import Profile from "./routes/profile";
+import Account from "./routes/account";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,13 @@ const router = createBrowserRouter([
           {
             path: "profile",
             element: <Profile />,
+            errorElement: <ErrorPage />,
+            children: [
+              {
+                path: "account",
+                element: <Account />,
+              },
+            ],
           },
         ],
       },

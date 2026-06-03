@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ShoppingCart, SquareUserRound } from "lucide-react";
 
-export default function NavBar({ cart, user }) {
+export default function NavBar({ cart, currentUser }) {
   const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
@@ -20,7 +20,7 @@ export default function NavBar({ cart, user }) {
         <Link to="shop/electronics">Electronics</Link>
       </div>
       <div className="nav-bar__utility">
-        <Link to={user ? "profile" : "login"}>
+        <Link to={currentUser ? "profile/account" : "login"}>
           <SquareUserRound />
           <p>Account</p>
         </Link>
