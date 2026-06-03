@@ -14,6 +14,9 @@ import Register from "./routes/register";
 import Login from "./routes/login";
 import Profile from "./routes/profile";
 import Account from "./routes/account";
+import Rewards from "./routes/rewards";
+import Orders from "./routes/orders";
+import Inventory from "./routes/inventory";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +67,18 @@ const router = createBrowserRouter([
               {
                 path: "account",
                 element: <Account />,
+              },
+              {
+                path: "rewards",
+                element: <Rewards />,
+              },
+              {
+                path: "orders",
+                element: <Orders />,
+              },
+              {
+                path: "inventory",
+                element: <Inventory />,
               },
             ],
           },
