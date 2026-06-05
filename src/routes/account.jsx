@@ -85,17 +85,19 @@ export default function Account() {
 
   return (
     <div className="account">
+      <h2>Information</h2>
       <div className="account__info">
-        <div>
+        <div className="account__label-value">
           <p className="account__label">Name</p>
           <p className="account__value">{currentUser.displayName}</p>
         </div>
-        <div>
+        <div className="account__label-value">
           <p className="account__label">Email</p>
           <p className="account__value">{currentUser.email}</p>
         </div>
         <div className="account__actions">
           <button onClick={handleEditInfo}>Edit Information</button>
+          <hr />
           <button>Change Password</button>
           <button onClick={handleLogOut}>Log Out</button>
           <hr />
@@ -104,7 +106,7 @@ export default function Account() {
       </div>
 
       {editing === "info" && (
-        <div className="account__edit-info-overlay">
+        <div className="account__editing-overlay">
           <div className="account__edit-info">
             <div className="account__close-edit-info">
               <button onClick={handleCloseModal}>
@@ -158,6 +160,10 @@ export default function Account() {
             </form>
           </div>
         </div>
+      )}
+
+      {editing === "password" && (
+        <div className="account__editing-overlay"></div>
       )}
     </div>
   );
