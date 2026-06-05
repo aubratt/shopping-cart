@@ -37,8 +37,6 @@ export default function Root() {
     }
   });
 
-  // const user = auth.currentUser;
-
   useEffect(() => {
     const fetchProductsData = async () => {
       try {
