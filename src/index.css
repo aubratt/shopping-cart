@@ -1168,8 +1168,6 @@ button:hover {
 /* Account */
 .account h2 {
   font-size: 1rem;
-  /* font-style: italic; */
-  /* font-weight: normal; */
 }
 .account hr {
   background-color: var(--border-light);
@@ -1190,16 +1188,17 @@ button:hover {
   color: var(--text-gray);
   font-size: 0.875rem;
 }
-.account__value {
-  /* border-bottom: 1px solid var(--border-light); */
-  /* padding-bottom: 0.25rem; */
-}
 .account__actions {
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
   text-align: center;
   width: 350px;
+}
+.account__actions-section {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
 }
 .account__delete {
   color: var(--danger);

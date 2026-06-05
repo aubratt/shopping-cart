@@ -96,12 +96,18 @@ export default function Account() {
           <p className="account__value">{currentUser.email}</p>
         </div>
         <div className="account__actions">
-          <button onClick={handleEditInfo}>Edit Information</button>
+          <div className="account__actions-section">
+            <button onClick={handleEditInfo}>Edit Information</button>
+            <button>Change Password</button>
+          </div>
           <hr />
-          <button>Change Password</button>
-          <button onClick={handleLogOut}>Log Out</button>
+          <div className="account__actions-section">
+            <button onClick={handleLogOut}>Log Out</button>
+          </div>
           <hr />
-          <button className="account__delete">Delete Account</button>
+          <div className="account__actions-section">
+            <button className="account__delete">Delete Account</button>
+          </div>
         </div>
       </div>
 
