@@ -10,6 +10,7 @@ import {
   updatePassword,
 } from "firebase/auth";
 import { X } from "lucide-react";
+import { field } from "firebase/firestore/pipelines";
 
 export default function Account() {
   const { currentUser, setCurrentUser } = useOutletContext();
@@ -70,86 +71,66 @@ export default function Account() {
   function saveInfo(e) {
     e.preventDefault();
 
-    const auth = getAuth();
-    const user = auth.currentUser;
+    const updatedInfoErrors = { ...infoErrors };
 
-    try {
-      const credential = EmailAuthProvider.credential(
-        user.email,
-        info.password,
-      );
-
-      reauthenticateWithCredential(user, credential)
-        .then(() => {
-          updateProfile(auth.currentUser, {
-            displayName: info.displayName,
-          });
-          updateEmail(auth.currentUser, info.email);
-          setEditing(null);
-        })
-        .catch((error) => {
-          console.log(error.message);
-          setIncorrectPassword(true);
-        });
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
-  function savePassword(e) {
-    e.preventDefault();
-
-    const updatedPasswordErrors = { ...passwordErrors };
-
-    if (passwords.new !== passwords.confirm) {
-      updatedPasswordErrors.confirm = "Passwords do not match";
-    }
-    Object.entries(passwords).forEach(([field, value]) => {
-      if (value === "") {
-        updatedPasswordErrors[field] = "This field is required";
+    Object.entries(info).forEach(([field, value]) => {
+      if (value.trim().length === 0) {
+        updatedInfoErrors[field] = "This field is required";
       }
     });
+  }
+
+  async function savePassword(e) {
+    e.preventDefault();
+
+    const newPasswordErrors = { ...passwordErrors };
+    const auth = getAuth();
+
+    if (!passwords.current)
+      newPasswordErrors.current = "This field is required";
+    if (!passwords.new) newPasswordErrors.new = "This field is required";
+    if (!passwords.confirm)
+      newPasswordErrors.confirm = "This field is required";
+    if (passwords.new && passwords.new.length < 6)
+      newPasswordErrors.new = "Password must be at least 6 characters";
     if (
-      Object.entries(updatedPasswordErrors).some(
-        ([field, value]) => value !== null,
-      )
-    ) {
-      setPasswordErrors(updatedPasswordErrors);
+      passwords.new &&
+      passwords.confirm &&
+      passwords.new !== passwords.confirm
+    )
+      newPasswordErrors.confirm = "Passwords do not match";
+
+    if (passwords.current) {
+      try {
+        const credential = EmailAuthProvider.credential(
+          auth.currentUser.email,
+          passwords.current,
+        );
+        await reauthenticateWithCredential(auth.currentUser, credential);
+      } catch (error) {
+        newPasswordErrors.current = "Incorrect password";
+      }
+    }
+
+    const hasErrors = Object.values(newPasswordErrors).some(
+      (value) => value !== null,
+    );
+    if (hasErrors) {
+      setPasswordErrors(newPasswordErrors);
       return;
     }
 
-    const auth = getAuth();
-    const user = auth.currentUser;
-    const credential = EmailAuthProvider.credential(
-      user.email,
-      passwords.current,
-    );
-
-    reauthenticateWithCredential(user, credential)
-      .then(() => {
-        updatePassword(user, passwords.new)
-          .then(() => {
-            setEditing(null);
-            setPasswords({
-              current: "",
-              new: "",
-              confirm: "",
-            });
-            setPasswordErrors({
-              current: null,
-              new: null,
-              confirm: null,
-            });
-          })
-          .catch((error) => {
-            updatedPasswordErrors.new = errorMessages[error.code];
-            setPasswordErrors(updatedPasswordErrors);
-          });
-      })
-      .catch((error) => {
-        updatedPasswordErrors.current = errorMessages[error.code];
-        setPasswordErrors(updatedPasswordErrors);
+    try {
+      await updatePassword(auth.currentUser, passwords.new);
+      setEditing("password-success");
+      setPasswords({
+        current: "",
+        new: "",
+        confirm: "",
       });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function handleLogOut() {
@@ -330,6 +311,34 @@ export default function Account() {
                 Save Password
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {editing === "password-success" && (
+        <div className="account__edit-modal-overlay">
+          <div className="account__edit-modal">
+            <div className="account__close-edit-modal">
+              <button
+                onClick={() => {
+                  setEditing(null);
+                  setPasswords({
+                    current: "",
+                    new: "",
+                    confirm: "",
+                  });
+                  setPasswordErrors({
+                    current: null,
+                    new: null,
+                    confirm: null,
+                  });
+                }}>
+                <X color="gray" />
+              </button>
+            </div>
+            <div className="account__edit-form-heading">
+              <p>Password changed successfully.</p>
+            </div>
           </div>
         </div>
       )}
