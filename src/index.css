@@ -1204,7 +1204,7 @@ button:hover {
   color: var(--danger);
   border: 1px solid var(--danger);
 }
-.account__editing-overlay {
+.account__edit-modal-overlay {
   position: fixed;
   z-index: 1;
   left: 0;
@@ -1214,48 +1214,48 @@ button:hover {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
 }
-.account__edit-info {
+.account__edit-modal {
   background-color: var(--background);
   border-radius: 1rem;
   width: 522px;
   margin: 2.5% auto;
   padding: 1.5rem;
 }
-.account__close-edit-info {
+.account__close-edit-modal {
   display: flex;
   justify-content: end;
 }
-.account__close-edit-info button {
+.account__close-edit-modal button {
   all: unset;
   cursor: pointer;
 }
-.account__edit-info-heading {
+.account__edit-form-heading {
   text-align: center;
 }
-.account__edit-info-heading h1 {
+.account__edit-form-heading h1 {
   font-size: 1.5rem;
   padding-bottom: 0.5rem;
 }
-.account__edit-info-form {
+.account__edit-form {
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
 }
-.account__edit-info-section {
+.account__edit-form-section {
   display: flex;
   flex-direction: column;
 }
-.account__edit-info-section label {
+.account__edit-form-section label {
   font-weight: bold;
 }
-.account__edit-info-section input {
+.account__edit-form-section input {
   all: unset;
   border-bottom: 1px solid var(--border);
 }
 .account__incorrect-password {
   color: var(--danger);
 }
-.account__edit-info-submit {
+.account__edit-form-submit {
   align-self: center;
 }
 
@@ -1264,7 +1264,7 @@ button:hover {
   color: var(--text-light);
   border: 1px solid var(--danger-light);
 }
-.account__close-edit-info button:hover svg path {
+.account__close-edit-modal button:hover svg path {
   stroke: var(--text-dark);
 }
 
