@@ -59,7 +59,8 @@ export default function Account() {
         ...info,
         [name]: value,
       });
-    } else if (editing === "password") {
+    }
+    if (editing === "password") {
       setPasswordErrors({ ...passwordErrors, [name]: null });
       setPasswords({
         ...passwords,
@@ -68,16 +69,52 @@ export default function Account() {
     }
   }
 
-  function saveInfo(e) {
+  async function saveInfo(e) {
     e.preventDefault();
 
-    const updatedInfoErrors = { ...infoErrors };
+    const newInfoErrors = { ...infoErrors };
+    const auth = getAuth();
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(info.email);
 
-    Object.entries(info).forEach(([field, value]) => {
-      if (value.trim().length === 0) {
-        updatedInfoErrors[field] = "This field is required";
+    if (!info.displayName) newInfoErrors.displayName = "This field is required";
+    if (!info.email) newInfoErrors.email = "This field is required";
+    if (!info.password) newInfoErrors.password = "This field is required";
+    if (!emailValid) newInfoErrors.email = "Invalid email address";
+
+    if (info.password) {
+      try {
+        const credential = EmailAuthProvider.credential(
+          auth.currentUser.email,
+          info.password,
+        );
+        await reauthenticateWithCredential(auth.currentUser, credential);
+      } catch (error) {
+        newInfoErrors.password = "Incorrect password";
       }
-    });
+    }
+
+    const hasErrors = Object.values(newInfoErrors).some(
+      (value) => value !== null,
+    );
+    if (hasErrors) {
+      setInfoErrors(newInfoErrors);
+      return;
+    }
+
+    try {
+      await updateProfile(auth.currentUser, {
+        displayName: info.displayName,
+      });
+      await updateEmail(auth.currentUser, info.email);
+      setEditing("info-success");
+      setInfo({
+        displayName: info.displayName,
+        email: info.email,
+        password: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function savePassword(e) {
@@ -240,6 +277,34 @@ export default function Account() {
         </div>
       )}
 
+      {editing === "info-success" && (
+        <div className="account__edit-modal-overlay">
+          <div className="account__edit-modal">
+            <div className="account__close-edit-modal">
+              <button
+                onClick={() => {
+                  setEditing(null);
+                  setPasswords({
+                    current: "",
+                    new: "",
+                    confirm: "",
+                  });
+                  setPasswordErrors({
+                    current: null,
+                    new: null,
+                    confirm: null,
+                  });
+                }}>
+                <X color="gray" />
+              </button>
+            </div>
+            <div className="account__edit-form-heading">
+              <p>Your account information has been udpated.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {editing === "password" && (
         <div className="account__edit-modal-overlay">
           <div className="account__edit-modal">
@@ -337,7 +402,7 @@ export default function Account() {
               </button>
             </div>
             <div className="account__edit-form-heading">
-              <p>Password changed successfully.</p>
+              <p>Your password has been changed.</p>
             </div>
           </div>
         </div>
