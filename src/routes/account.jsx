@@ -8,6 +8,7 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   updatePassword,
+  deleteUser,
 } from "firebase/auth";
 import { X } from "lucide-react";
 import { field } from "firebase/firestore/pipelines";
@@ -18,25 +19,27 @@ export default function Account() {
 
   const [editing, setEditing] = useState(null);
   const [info, setInfo] = useState({
-    displayName: currentUser.displayName,
-    email: currentUser.email,
+    displayName: currentUser ? currentUser.displayName : "",
+    email: currentUser ? currentUser.email : "",
     password: "",
-  });
-  const [infoErrors, setInfoErrors] = useState({
-    displayName: null,
-    email: null,
-    password: null,
   });
   const [passwords, setPasswords] = useState({
     current: "",
     new: "",
     confirm: "",
   });
+  const [deleteFormPassword, setDeleteFormPassword] = useState("");
+  const [infoErrors, setInfoErrors] = useState({
+    displayName: null,
+    email: null,
+    password: null,
+  });
   const [passwordErrors, setPasswordErrors] = useState({
     current: null,
     new: null,
     confirm: null,
   });
+  const [deleteFormError, setDeleteFormError] = useState(null);
 
   const errorMessages = {
     "auth/invalid-email": "Invalid email address",
@@ -66,6 +69,10 @@ export default function Account() {
         ...passwords,
         [name]: value,
       });
+    }
+    if (editing === "confirm-delete") {
+      setDeleteFormError(null);
+      setDeleteFormPassword(value);
     }
   }
 
@@ -182,35 +189,80 @@ export default function Account() {
       });
   }
 
+  async function handleDelete(e) {
+    e.preventDefault();
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!deleteFormPassword) {
+      setDeleteFormError("This field is required");
+      return;
+    }
+
+    try {
+      const credential = EmailAuthProvider.credential(
+        user.email,
+        deleteFormPassword,
+      );
+      await reauthenticateWithCredential(user, credential);
+    } catch (error) {
+      setDeleteFormError("Incorrect password");
+      return;
+    }
+
+    try {
+      await deleteUser(user);
+      setEditing("delete-success");
+      setDeleteFormPassword("");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="account">
-      <h2>Information</h2>
-      <div className="account__info">
-        <div className="account__label-value">
-          <p className="account__label">Name</p>
-          <p className="account__value">{currentUser.displayName}</p>
-        </div>
-        <div className="account__label-value">
-          <p className="account__label">Email</p>
-          <p className="account__value">{currentUser.email}</p>
-        </div>
-        <div className="account__actions">
-          <div className="account__actions-section">
-            <button onClick={() => setEditing("info")}>Edit Information</button>
-            <button onClick={() => setEditing("password")}>
-              Change Password
-            </button>
+      {editing !== "delete-success" && (
+        <>
+          <h2>Information</h2>
+          <div className="account__info">
+            <div className="account__label-value">
+              <p className="account__label">Name</p>
+              <p className="account__value">
+                {currentUser ? currentUser.displayName : ""}
+              </p>
+            </div>
+            <div className="account__label-value">
+              <p className="account__label">Email</p>
+              <p className="account__value">
+                {currentUser ? currentUser.email : ""}
+              </p>
+            </div>
+            <div className="account__actions">
+              <div className="account__actions-section">
+                <button onClick={() => setEditing("info")}>
+                  Edit Information
+                </button>
+                <button onClick={() => setEditing("password")}>
+                  Change Password
+                </button>
+              </div>
+              <hr />
+              <div className="account__actions-section">
+                <button onClick={handleLogOut}>Log Out</button>
+              </div>
+              <hr />
+              <div className="account__actions-section">
+                <button
+                  onClick={() => setEditing("delete")}
+                  className="account__danger-button">
+                  Delete Account
+                </button>
+              </div>
+            </div>
           </div>
-          <hr />
-          <div className="account__actions-section">
-            <button onClick={handleLogOut}>Log Out</button>
-          </div>
-          <hr />
-          <div className="account__actions-section">
-            <button className="account__delete">Delete Account</button>
-          </div>
-        </div>
-      </div>
+        </>
+      )}
 
       {editing === "info" && (
         <div className="account__edit-modal-overlay">
@@ -403,6 +455,99 @@ export default function Account() {
             </div>
             <div className="account__edit-form-heading">
               <p>Your password has been changed.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editing === "delete" && (
+        <div className="account__edit-modal-overlay">
+          <div className="account__edit-modal">
+            <div className="account__close-edit-modal">
+              <button
+                onClick={() => {
+                  setEditing(null);
+                }}>
+                <X color="gray" />
+              </button>
+            </div>
+            <div className="account__edit-form-heading">
+              <h1>Delete Account</h1>
+            </div>
+            <div className="account__edit-form">
+              <div className="account__edit-form-danger-section">
+                <p>Are you sure you want to delete your account?</p>
+                <div className="account__danger-actions">
+                  <button
+                    onClick={() => setEditing("confirm-delete")}
+                    className="account__danger-button">
+                    Yes
+                  </button>
+                  <button onClick={() => setEditing(null)}>Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editing === "confirm-delete" && (
+        <div className="account__edit-modal-overlay">
+          <div className="account__edit-modal">
+            <div className="account__close-edit-modal">
+              <button
+                onClick={() => {
+                  setEditing(null);
+                  setDeleteFormPassword("");
+                  setDeleteFormError(null);
+                }}>
+                <X color="gray" />
+              </button>
+            </div>
+            <div className="account__edit-form-heading">
+              <h1>Delete Account</h1>
+            </div>
+            <form onSubmit={handleDelete} className="account__edit-form">
+              <div className="account__edit-form-danger-section">
+                <label htmlFor="password">
+                  Enter your password to delete your account:
+                </label>
+                <input
+                  onChange={handleChange}
+                  type="password"
+                  name="password"
+                />
+                {deleteFormError && (
+                  <p className="account__incorrect-password">
+                    {deleteFormError}
+                  </p>
+                )}
+                <div className="account__danger-actions">
+                  <button type="submit" className="account__danger-button">
+                    Delete
+                  </button>
+                  <button onClick={() => setEditing(null)}>Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {editing === "delete-success" && (
+        <div className="account__edit-modal-overlay">
+          <div className="account__edit-modal">
+            <div className="account__close-edit-modal">
+              <button
+                onClick={() => {
+                  setEditing(null);
+                  navigate("/login");
+                }}>
+                <X color="gray" />
+              </button>
+            </div>
+            <div className="account__edit-form-heading">
+              <p>Your account has been deleted.</p>
             </div>
           </div>
         </div>

@@ -1252,6 +1252,28 @@ button:hover {
   all: unset;
   border-bottom: 1px solid var(--border);
 }
+.account__edit-form-danger-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1rem;
+}
+.account__edit-form-danger-section input {
+  all: unset;
+  border-bottom: 1px solid var(--border);
+}
+.account__danger-actions {
+  display: flex;
+  column-gap: 1rem;
+}
+.account__danger-actions button {
+  text-align: center;
+  width: 3rem;
+}
+.account__danger-button {
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
 .account__incorrect-password {
   color: var(--danger);
 }
@@ -1259,7 +1281,7 @@ button:hover {
   align-self: center;
 }
 
-.account__delete:hover {
+.account__danger-button:hover {
   background-color: var(--danger);
   color: var(--text-light);
   border: 1px solid var(--danger-light);
