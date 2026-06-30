@@ -14,6 +14,10 @@ import { X } from "lucide-react";
 import { field } from "firebase/firestore/pipelines";
 
 export default function Account() {
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
   const { currentUser, setCurrentUser } = useOutletContext();
   const navigate = useNavigate();
 

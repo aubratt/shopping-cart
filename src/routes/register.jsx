@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -8,6 +8,7 @@ import {
 
 export default function Register() {
   const { setCurrentUser } = useOutletContext();
+  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -33,6 +34,9 @@ export default function Register() {
         updateProfile(auth.currentUser, {
           displayName: `${e.target.first.value} ${e.target.last.value}`,
         });
+
+        navigate("/profile/account");
+        navigate(0);
       })
       .catch((error) => {
         const errorCode = error.code;
