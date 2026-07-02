@@ -29,14 +29,15 @@ export default function Register() {
       e.target.email.value,
       e.target.password.value,
     )
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
-        updateProfile(auth.currentUser, {
+
+        await updateProfile(user, {
           displayName: `${e.target.first.value} ${e.target.last.value}`,
         });
 
-        navigate("/profile/account");
-        navigate(0);
+        setCurrentUser({ ...auth.currentUser });
+        navigate("/");
       })
       .catch((error) => {
         const errorCode = error.code;

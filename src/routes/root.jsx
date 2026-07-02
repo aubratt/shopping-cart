@@ -17,7 +17,7 @@ export default function Root() {
   const [products, setProducts] = useState(null);
   const [category, setCategory] = useState("all");
   const [cart, setCart] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useLocalStorage("currentUser", null);
 
   const firebaseConfig = {
     apiKey: "AIzaSyAV8Q35CTUxE8NPW4MvaMCN5miAAFLi9Qo",

@@ -22,7 +22,7 @@ export default function NavBar({ cart, currentUser }) {
       <div className="nav-bar__utility">
         <Link to={currentUser ? "profile/account" : "login"}>
           <SquareUserRound />
-          <p>Account</p>
+          <p>{currentUser ? "Account" : "Login"}</p>
         </Link>
         <Link to="cart">
           <ShoppingCart />
