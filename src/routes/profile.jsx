@@ -7,7 +7,7 @@ import {
 
 export default function Profile() {
   const location = useLocation();
-  const { currentUser } = useOutletContext();
+  const { db, currentUser } = useOutletContext();
 
   return (
     <div className="profile">
@@ -51,7 +51,7 @@ export default function Profile() {
           </Link>
         </div>
       </div>
-      <Outlet context={{ currentUser }} />
+      <Outlet context={{ db, currentUser }} />
     </div>
   );
 }

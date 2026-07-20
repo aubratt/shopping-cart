@@ -1,9 +1,18 @@
-import { Frown, Minus, Plus, ShoppingCart, Trash, Trash2 } from "lucide-react";
+import {
+  Frown,
+  Minus,
+  Plus,
+  ShoppingCart,
+  Trash,
+  Trash2,
+  User,
+} from "lucide-react";
 import { useOutletContext } from "react-router-dom";
+import { doc, increment, setDoc, updateDoc } from "firebase/firestore";
 
 // Use localforage here for cart data
 export default function Cart() {
-  const { products, cart, setCart } = useOutletContext();
+  const { db, products, cart, setCart, currentUser } = useOutletContext();
 
   const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
   const subtotal = cart.reduce(
@@ -19,16 +28,16 @@ export default function Cart() {
   const tax = subtotal * 0.05;
   const total = subtotal + shipping + tax;
 
-  function handleMinusClick(e) {
-    console.log(e.target);
-  }
-
-  function handlePlusClick(e) {}
-
-  function handleDelete(e) {}
-
   function capitalizeString(string) {
     return String(string).charAt(0).toUpperCase() + String(string).slice(1);
+  }
+
+  async function handleCheckout() {
+    const docRef = doc(db, "users", currentUser.uid);
+
+    await updateDoc(docRef, {
+      rewards: increment(10),
+    });
   }
 
   return (
@@ -144,7 +153,9 @@ export default function Cart() {
             <p>{cart.length ? `$${total.toFixed(2)}` : "--"}</p>
           </div>
         </div>
-        <button className="cart__checkout">Checkout</button>
+        <button onClick={handleCheckout} className="cart__checkout">
+          Checkout
+        </button>
       </div>
     </div>
   );
