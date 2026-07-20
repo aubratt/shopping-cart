@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 import { getProducts } from "../products";
 
@@ -36,6 +37,7 @@ export default function Root() {
       setCurrentUser(null);
     }
   });
+  const db = getFirestore(app);
 
   useEffect(() => {
     const fetchProductsData = async () => {
