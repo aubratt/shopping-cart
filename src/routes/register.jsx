@@ -5,46 +5,34 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function Register() {
-  const { setCurrentUser } = useOutletContext();
+  const { auth, db, setCurrentUser } = useOutletContext();
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAV8Q35CTUxE8NPW4MvaMCN5miAAFLi9Qo",
-      authDomain: "shopping-cart-dae1b.firebaseapp.com",
-      projectId: "shopping-cart-dae1b",
-      storageBucket: "shopping-cart-dae1b.firebasestorage.app",
-      messagingSenderId: "472626085376",
-      appId: "1:472626085376:web:7e2f7a4d4d02cf194062e5",
-    };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    createUserWithEmailAndPassword(
+    const userCredential = await createUserWithEmailAndPassword(
       auth,
       e.target.email.value,
       e.target.password.value,
-    )
-      .then(async (userCredential) => {
-        const user = userCredential.user;
+    );
+    const user = userCredential.user;
 
-        await updateProfile(user, {
-          displayName: `${e.target.first.value} ${e.target.last.value}`,
-        });
+    await updateProfile(user, {
+      displayName: `${e.target.first.value} ${e.target.last.value}`,
+    });
 
-        setCurrentUser({ ...auth.currentUser });
-        navigate("/");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-      });
+    setCurrentUser({ ...auth.currentUser });
+    navigate("/");
+
+    await setDoc(doc(db, "users", user.uid), {
+      rewards: 0,
+      orders: [],
+      inventory: [],
+    });
   }
 
   return (

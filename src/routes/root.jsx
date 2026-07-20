@@ -77,6 +77,10 @@ export default function Root() {
       <NavBar cart={cart} currentUser={currentUser} />
       <Outlet
         context={{
+          firebaseConfig,
+          app,
+          auth,
+          db,
           loading,
           setLoading,
           error,
