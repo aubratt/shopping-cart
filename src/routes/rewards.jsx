@@ -12,7 +12,6 @@ export default function Rewards() {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        console.log(docSnap.data());
         setData(docSnap.data());
       } else {
         console.log("No such doc");
@@ -22,11 +21,15 @@ export default function Rewards() {
     getRewards();
   }, [db, currentUser]);
 
-  if (!data) return <div>Loading...</div>
+  if (!data) return <div>Loading...</div>;
 
   return (
     <div className="rewards">
-      <p>{data.rewards} points</p>
+      <p>
+        Earn 10 rewards points for every dollar you spend (not including
+        shipping and tax)
+      </p>
+      <p>Current Balance: {data.rewards} points</p>
     </div>
   );
 }

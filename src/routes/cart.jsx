@@ -36,7 +36,7 @@ export default function Cart() {
     const docRef = doc(db, "users", currentUser.uid);
 
     await updateDoc(docRef, {
-      rewards: increment(10),
+      rewards: increment(Math.round(10 * subtotal)),
     });
   }
 
