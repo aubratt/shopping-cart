@@ -929,7 +929,7 @@ button:hover {
   border: 1px solid var(--border);
 }
 
-/* Cart Page */
+/* Cart */
 .cart {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -1069,6 +1069,14 @@ button:hover {
   cursor: pointer;
   background-color: var(--background);
 }
+
+/* Checkout */
+.checkout {
+  max-width: 1440px;
+  margin: auto;
+  padding: 2rem 4rem;
+}
+
 
 /* Register */
 .register {

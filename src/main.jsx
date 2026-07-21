@@ -17,6 +17,7 @@ import Account from "./routes/account";
 import Rewards from "./routes/rewards";
 import Orders from "./routes/orders";
 import Inventory from "./routes/inventory";
+import Checkout from "./routes/checkout";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
           {
             path: "cart",
             element: <Cart />,
+          },
+          {
+            path: "checkout",
+            element: <Checkout />,
           },
           {
             path: "register",

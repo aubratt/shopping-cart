@@ -7,12 +7,20 @@ import {
   Trash2,
   User,
 } from "lucide-react";
-import { useOutletContext } from "react-router-dom";
-import { doc, increment, setDoc, updateDoc } from "firebase/firestore";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import {
+  doc,
+  increment,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
+import firebase from "firebase/compat/app";
 
 // Use localforage here for cart data
 export default function Cart() {
   const { db, products, cart, setCart, currentUser } = useOutletContext();
+  const navigate = useNavigate();
 
   const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
   const subtotal = cart.reduce(
@@ -37,7 +45,18 @@ export default function Cart() {
 
     await updateDoc(docRef, {
       rewards: increment(Math.round(10 * subtotal)),
+      orders: arrayUnion({
+        orderNumber: 1,
+        items: cart,
+        subtotal: subtotal,
+        shipping: shipping,
+        tax: tax,
+        total: total,
+        rewardsEarned: Math.round(10 * subtotal),
+      }),
     });
+
+    navigate("/checkout");
   }
 
   return (
