@@ -42,11 +42,17 @@ export default function Cart() {
 
   async function handleCheckout() {
     const docRef = doc(db, "users", currentUser.uid);
+    const today = new Date();
 
     await updateDoc(docRef, {
       rewards: increment(Math.round(10 * subtotal)),
       orders: arrayUnion({
         orderNumber: 1,
+        date: `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`,
+        time: today.toLocaleTimeString([], {
+          hour: "numeric",
+          minute: "2-digit",
+        }),
         items: cart,
         subtotal: subtotal,
         shipping: shipping,
@@ -56,6 +62,7 @@ export default function Cart() {
       }),
     });
 
+    setCart([]);
     navigate("/checkout");
   }
 

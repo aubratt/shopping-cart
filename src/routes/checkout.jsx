@@ -36,6 +36,8 @@ export default function Checkout() {
           points!
         </p>
         <p>Order Number: {data.orderNumber}</p>
+        <p>Order Date: {data.date}</p>
+        <p>Order Time: {data.time}</p>
         <div className="checkout__items">
           <p>Items</p>
           <div className="checkout__items-list">
