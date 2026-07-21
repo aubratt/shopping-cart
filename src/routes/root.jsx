@@ -15,9 +15,9 @@ import ScrollToTop from "../components/ScrollToTop";
 export default function Root() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useLocalStorage("products", null);
   const [category, setCategory] = useState("all");
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useLocalStorage("cart", []);
   const [currentUser, setCurrentUser] = useLocalStorage("currentUser", null);
 
   const firebaseConfig = {
