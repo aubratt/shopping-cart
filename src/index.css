@@ -1396,6 +1396,29 @@ button:hover {
   font-size: 1.5rem;
 }
 
+/* Orders */
+.orders {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  margin-top: 0.5rem;
+}
+.orders__order {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  width: 350px;
+  padding: 0.5rem;
+}
+.orders__order-line {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orders__order:hover {
+  cursor: pointer;
+  background-color: var(--surface);
+}
+
 /* Footer */
 .footer {
   display: flex;

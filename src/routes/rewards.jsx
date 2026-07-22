@@ -12,7 +12,7 @@ export default function Rewards() {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        setData(docSnap.data());
+        setData(docSnap.data().rewards);
       } else {
         console.log("No such doc");
       }
@@ -28,7 +28,7 @@ export default function Rewards() {
       <div className="rewards__current-balance">
         <h2>Current Balance</h2>
         <p>
-          <span className="rewards__points">{data.rewards}</span>{" "}
+          <span className="rewards__points">{data}</span>{" "}
           <span>points</span>
         </p>
       </div>
