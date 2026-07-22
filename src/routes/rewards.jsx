@@ -25,11 +25,20 @@ export default function Rewards() {
 
   return (
     <div className="rewards">
-      <p>
-        Earn 10 rewards points for every dollar you spend (not including
-        shipping and tax)
-      </p>
-      <p>Current Balance: {data.rewards} points</p>
+      <div className="rewards__current-balance">
+        <h2>Current Balance</h2>
+        <p>
+          <span className="rewards__points">{data.rewards}</span>{" "}
+          <span>points</span>
+        </p>
+      </div>
+      <div className="rewards__how-it-works">
+        <h2>How It Works</h2>
+        <p>
+          Earn 10 rewards points for every dollar you spend (not including
+          shipping and tax)
+        </p>
+      </div>
     </div>
   );
 }

@@ -17,7 +17,6 @@ import {
 } from "firebase/firestore";
 import firebase from "firebase/compat/app";
 
-// Use localforage here for cart data
 export default function Cart() {
   const { db, products, cart, setCart, currentUser } = useOutletContext();
   const navigate = useNavigate();

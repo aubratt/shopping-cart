@@ -1382,6 +1382,20 @@ button:hover {
   stroke: var(--text-dark);
 }
 
+/* Rewards */
+.rewards {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  width: 350px;
+}
+.rewards h2 {
+  font-size: 1rem;
+}
+.rewards__points {
+  font-size: 1.5rem;
+}
+
 /* Footer */
 .footer {
   display: flex;
