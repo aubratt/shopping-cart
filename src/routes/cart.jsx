@@ -33,7 +33,7 @@ export default function Cart() {
     0,
   );
   const shipping = subtotal < 100 ? 9.99 : 0;
-  const tax = subtotal * 0.05;
+  const tax = Number((subtotal * 0.05).toFixed(2));
   const total = subtotal + shipping + tax;
 
   function capitalizeString(string) {
@@ -49,10 +49,6 @@ export default function Cart() {
       orders: arrayUnion({
         orderNumber: 1,
         date: `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`,
-        time: today.toLocaleTimeString([], {
-          hour: "numeric",
-          minute: "2-digit",
-        }),
         items: cart,
         subtotal: subtotal,
         shipping: shipping,

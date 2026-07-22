@@ -21,7 +21,9 @@ export default function Checkout() {
     getOrderInfo();
   }, [db, currentUser]);
 
-  console.log(data);
+  function capitalizeString(string) {
+    return String(string).charAt(0).toUpperCase() + String(string).slice(1);
+  }
 
   if (!data) return <div>Processing...</div>;
 
@@ -29,39 +31,64 @@ export default function Checkout() {
     <div className="checkout">
       <div className="checkout__heading">
         <h1>Checkout</h1>
-      </div>
-      <div className="checkout__info">
         <p>
           Thank you for your purchase. You earned {data.rewardsEarned} rewards
           points!
         </p>
-        <p>Order Number: {data.orderNumber}</p>
-        <p>Order Date: {data.date}</p>
-        <p>Order Time: {data.time}</p>
+      </div>
+      <div className="checkout__info">
+        <div className="checkout__confirmation">
+          <div className="checkout__confirmation-section">
+            <p className="checkout__confirmation-section-heading">
+              Order Number
+            </p>
+            <p>{data.orderNumber}</p>
+          </div>
+          <div className="checkout__confirmation-section">
+            <p className="checkout__confirmation-section-heading">
+              Order Placed
+            </p>
+            <p className="checkout__confirmation-date">{data.date}</p>
+          </div>
+        </div>
         <div className="checkout__items">
-          <p>Items</p>
           <div className="checkout__items-list">
             {data.items.map((item) => {
               const product = products.find(
                 (p) => String(p.id) === String(item.productId),
               );
               return (
-                <div key={crypto.randomUUID()}>
-                  <p>Item: {product.title}</p>
-                  <p>Color: {item.color}</p>
-                  <p>Size: {item.size}</p>
-                  <p>Price: {product.price}</p>
-                  <p>Quantity: {item.quantity}</p>
+                <div key={crypto.randomUUID()} className="checkout__item">
+                  <div className="checkout__item-image">
+                    <div
+                      className="checkout__item-color"
+                      style={{ borderTop: `80px solid ${item.color}` }}></div>
+                    <img src={product.image} alt="" />
+                  </div>
+                  <div className="checkout__item-info">
+                    <div className="checkout__item-heading">
+                      <p>{product.title}</p>
+                      <p>${Number(product.price * item.quantity).toFixed(2)}</p>
+                    </div>
+                    <div className="checkout__item-details">
+                      <p>Color: {capitalizeString(item.color)}</p>
+                      <p>Size: {item.size.toUpperCase()}</p>
+                      <p>Price: ${Number(product.price).toFixed(2)}</p>
+                      <p>Quantity: {item.quantity}</p>
+                    </div>
+                  </div>
                 </div>
               );
             })}
           </div>
         </div>
         <div className="checkout__summary">
-          <p>Subtotal: {data.subtotal}</p>
-          <p>Shipping (free over $100): {data.shipping}</p>
-          <p>Tax: {data.tax}</p>
-          <p>Total: {data.total}</p>
+          <p>Subtotal: ${Number(data.subtotal).toFixed(2)}</p>
+          <p>Shipping: ${Number(data.shipping).toFixed(2)}</p>
+          <p>Tax: ${Number(data.tax).toFixed(2)}</p>
+          <p className="checkout__total">
+            Total: ${Number(data.total).toFixed(2)}
+          </p>
         </div>
       </div>
     </div>
