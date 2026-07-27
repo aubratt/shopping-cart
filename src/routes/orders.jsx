@@ -26,27 +26,31 @@ export default function Orders() {
 
   return (
     <div className="orders">
-      {data.map((order) => {
-        const totalQuantity = order.items.reduce(
-          (total, item) => total + item.quantity,
-          0,
-        );
+      {data.length > 0 ? (
+        data
+          .map((order) => {
+            const totalQuantity = order.items.reduce(
+              (total, item) => total + item.quantity,
+              0,
+            );
 
-        console.log(order.orderNumber)
-
-        return (
-          <div key={crypto.randomUUID()} className="orders__order">
-            <div className="orders__order-line">
-              <p>Order #{order.orderNumber}</p>
-              <p>{order.date}</p>
-            </div>
-            <div className="orders__order-line">
-              <p>{totalQuantity} items</p>
-              <p>${order.total.toFixed(2)}</p>
-            </div>
-          </div>
-        );
-      }).reverse()}
+            return (
+              <div key={crypto.randomUUID()} className="orders__order">
+                <div className="orders__order-line">
+                  <p>Order #{order.orderNumber}</p>
+                  <p>{order.date}</p>
+                </div>
+                <div className="orders__order-line">
+                  <p>{totalQuantity} items</p>
+                  <p>${order.total.toFixed(2)}</p>
+                </div>
+              </div>
+            );
+          })
+          .reverse()
+      ) : (
+        <p>No orders</p>
+      )}
     </div>
   );
 }

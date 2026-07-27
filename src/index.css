@@ -1404,6 +1404,7 @@ button:hover {
   margin-top: 0.5rem;
 }
 .orders__order {
+  background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
   width: 350px;
@@ -1416,7 +1417,7 @@ button:hover {
 
 .orders__order:hover {
   cursor: pointer;
-  background-color: var(--surface);
+  background-color: var(--elevated);
 }
 
 /* Footer */
