@@ -14,12 +14,17 @@ import {
   setDoc,
   updateDoc,
   arrayUnion,
+  runTransaction,
+  onSnapshot,
 } from "firebase/firestore";
 import firebase from "firebase/compat/app";
+import { useEffect, useState } from "react";
 
 export default function Cart() {
   const { db, products, cart, setCart, currentUser } = useOutletContext();
   const navigate = useNavigate();
+
+  const [orderNumber, setOrderNumber] = useState(null);
 
   const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
   const subtotal = cart.reduce(
@@ -39,14 +44,29 @@ export default function Cart() {
     return String(string).charAt(0).toUpperCase() + String(string).slice(1);
   }
 
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, "orders", "nextOrder"), (doc) => {
+      setOrderNumber(doc.data().number);
+    });
+
+    return () => unsub();
+  }, []);
+
   async function handleCheckout() {
-    const docRef = doc(db, "users", currentUser.uid);
+    const ordersDocRef = doc(db, "orders", "nextOrder");
+    const usersDocRef = doc(db, "users", currentUser.uid);
     const today = new Date();
 
-    await updateDoc(docRef, {
+    await runTransaction(db, async (transaction) => {
+      const ordersDoc = await transaction.get(ordersDocRef);
+      const newOrderNumber = ordersDoc.data().number + 1;
+      transaction.update(ordersDocRef, { number: newOrderNumber });
+    });
+
+    await updateDoc(usersDocRef, {
       rewards: increment(Math.round(10 * subtotal)),
       orders: arrayUnion({
-        orderNumber: 1,
+        orderNumber: orderNumber,
         date: `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`,
         items: cart,
         subtotal: subtotal,

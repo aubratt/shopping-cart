@@ -4,6 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 export default function Orders() {
   const { db, currentUser } = useOutletContext();
+
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -30,6 +31,8 @@ export default function Orders() {
           (total, item) => total + item.quantity,
           0,
         );
+
+        console.log(order.orderNumber)
 
         return (
           <div key={crypto.randomUUID()} className="orders__order">
