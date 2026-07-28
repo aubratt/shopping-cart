@@ -4,6 +4,7 @@ import { useOutletContext } from "react-router-dom";
 
 export default function Checkout() {
   const { db, currentUser, products } = useOutletContext();
+  
   const [data, setData] = useState(null);
 
   useEffect(() => {

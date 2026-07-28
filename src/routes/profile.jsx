@@ -2,7 +2,7 @@ import { Link, Outlet, useLocation, useOutletContext } from "react-router-dom";
 
 export default function Profile() {
   const location = useLocation();
-  const { db, currentUser } = useOutletContext();
+  const { db, currentUser, products } = useOutletContext();
 
   return (
     <div className="profile">
@@ -46,7 +46,7 @@ export default function Profile() {
           </Link>
         </div>
       </div>
-      <Outlet context={{ db, currentUser }} />
+      <Outlet context={{ db, currentUser, products }} />
     </div>
   );
 }
