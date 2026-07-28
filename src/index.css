@@ -1438,8 +1438,6 @@ button:hover {
   width: 350px;
   padding: 1rem;
 }
-.order__info {
-}
 .order__confirmation {
   display: flex;
   justify-content: space-between;

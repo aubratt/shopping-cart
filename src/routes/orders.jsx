@@ -20,7 +20,7 @@ export default function Orders() {
     }
 
     getOrders();
-  }, [db, currentUser]);
+  }, []);
 
   if (!data) return <div>Loading...</div>;
 

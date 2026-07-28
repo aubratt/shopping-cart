@@ -35,15 +35,6 @@ export default function Profile() {
             }>
             Orders
           </Link>
-          <Link
-            to="/profile/inventory"
-            className={
-              location.pathname === "/profile/inventory"
-                ? "profile__current-page"
-                : "profile__page"
-            }>
-            Inventory
-          </Link>
         </div>
       </div>
       <Outlet context={{ db, currentUser, products }} />
