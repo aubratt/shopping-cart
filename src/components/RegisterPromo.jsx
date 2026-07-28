@@ -2,7 +2,7 @@ import { ArrowRight, BellRing, DollarSign, Gift, Percent } from "lucide-react";
 import { Link, useOutletContext } from "react-router-dom";
 
 export default function RegisterPromo() {
-  const { user } = useOutletContext();
+  const { currentUser } = useOutletContext();
 
   const iconColor = "#fefae0";
   const iconSize = 45;
@@ -44,7 +44,7 @@ export default function RegisterPromo() {
         </div>
       </div>
       <div className="register-promo__button">
-        <Link to={user ? "profile" : "register"}>
+        <Link to={currentUser ? "profile/account" : "register"}>
           <button>
             Register
             <ArrowRight />
