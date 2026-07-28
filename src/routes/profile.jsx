@@ -1,9 +1,4 @@
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useOutletContext,
-} from "react-router-dom";
+import { Link, Outlet, useLocation, useOutletContext } from "react-router-dom";
 
 export default function Profile() {
   const location = useLocation();
@@ -34,7 +29,7 @@ export default function Profile() {
           <Link
             to="/profile/orders"
             className={
-              location.pathname === "/profile/orders"
+              location.pathname.includes("/profile/orders")
                 ? "profile__current-page"
                 : "profile__page"
             }>

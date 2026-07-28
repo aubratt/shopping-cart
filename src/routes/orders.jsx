@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { Link, Outlet, useOutletContext } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 
 export default function Orders() {
@@ -35,7 +35,10 @@ export default function Orders() {
             );
 
             return (
-              <div key={crypto.randomUUID()} className="orders__order">
+              <Link
+                to={`/profile/orders/${order.orderNumber}`}
+                key={crypto.randomUUID()}
+                className="orders__order">
                 <div className="orders__order-line">
                   <p>Order #{order.orderNumber}</p>
                   <p>{order.date}</p>
@@ -44,7 +47,7 @@ export default function Orders() {
                   <p>{totalQuantity} items</p>
                   <p>${order.total.toFixed(2)}</p>
                 </div>
-              </div>
+              </Link>
             );
           })
           .reverse()

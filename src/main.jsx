@@ -18,6 +18,7 @@ import Rewards from "./routes/rewards";
 import Orders from "./routes/orders";
 import Inventory from "./routes/inventory";
 import Checkout from "./routes/checkout";
+import Order from "./routes/order";
 
 const router = createBrowserRouter([
   {
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
               {
                 path: "orders",
                 element: <Orders />,
+              },
+              {
+                path: "orders/:orderNumber",
+                element: <Order />,
               },
               {
                 path: "inventory",
