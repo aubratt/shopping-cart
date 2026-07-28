@@ -484,7 +484,7 @@ export default function Product() {
             </div>
             <div className="product__just-added-actions">
               <Link to="/cart">
-                <button>Checkout</button>
+                <button>Go to Cart</button>
               </Link>
               <button onClick={handleCloseModal}>Continue Shopping</button>
             </div>
