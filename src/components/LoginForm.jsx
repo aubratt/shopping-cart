@@ -1,10 +1,9 @@
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 
 export default function LoginForm({ handleSuccess }) {
   const { setCurrentUser } = useOutletContext();
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -33,9 +32,7 @@ export default function LoginForm({ handleSuccess }) {
       e.target.password.value,
     )
       .then((userCredential) => {
-        const user = userCredential.user;
-        setCurrentUser(user);
-        navigate("/profile/account");
+        setCurrentUser(userCredential.user);
       })
       .catch((error) => {
         const newErrors = {};
