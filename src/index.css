@@ -1210,11 +1210,14 @@ button:hover {
   row-gap: 1rem;
   margin-bottom: 1.5rem;
 }
-.login__inputs input {
+.login__input input {
   all: unset;
   border-bottom: 1px solid var(--border);
   width: 350px;
   padding-bottom: 0.25rem;
+}
+.login__error {
+  color: var(--danger);
 }
 .login__register {
   display: flex;

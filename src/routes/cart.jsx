@@ -85,6 +85,10 @@ export default function Cart() {
       // guest, login, or register. go to login and register and refactor the 
       // form logic into their own components so theyre reusuable instead of
       // tied to those pages. probably create a new branch for this.
+
+      // DONE: refactor register
+      // TODO: refactor login
+      // TODO: create checkout-while-not-logged-in modal
     }
   }
 
