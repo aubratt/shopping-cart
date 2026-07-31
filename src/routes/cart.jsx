@@ -53,32 +53,39 @@ export default function Cart() {
   }, []);
 
   async function handleCheckout() {
-    const ordersDocRef = doc(db, "orders", "nextOrder");
-    const usersDocRef = doc(db, "users", currentUser.uid);
-    const today = new Date();
+    if (currentUser) {
+      const ordersDocRef = doc(db, "orders", "nextOrder");
+      const usersDocRef = doc(db, "users", currentUser.uid);
+      const today = new Date();
 
-    await runTransaction(db, async (transaction) => {
-      const ordersDoc = await transaction.get(ordersDocRef);
-      const newOrderNumber = ordersDoc.data().number + 1;
-      transaction.update(ordersDocRef, { number: newOrderNumber });
-    });
+      await runTransaction(db, async (transaction) => {
+        const ordersDoc = await transaction.get(ordersDocRef);
+        const newOrderNumber = ordersDoc.data().number + 1;
+        transaction.update(ordersDocRef, { number: newOrderNumber });
+      });
 
-    await updateDoc(usersDocRef, {
-      rewards: increment(Math.round(10 * subtotal)),
-      orders: arrayUnion({
-        orderNumber: orderNumber,
-        date: `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`,
-        items: cart,
-        subtotal: subtotal,
-        shipping: shipping,
-        tax: tax,
-        total: total,
-        rewardsEarned: Math.round(10 * subtotal),
-      }),
-    });
+      await updateDoc(usersDocRef, {
+        rewards: increment(Math.round(10 * subtotal)),
+        orders: arrayUnion({
+          orderNumber: orderNumber,
+          date: `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`,
+          items: cart,
+          subtotal: subtotal,
+          shipping: shipping,
+          tax: tax,
+          total: total,
+          rewardsEarned: Math.round(10 * subtotal),
+        }),
+      });
 
-    setCart([]);
-    navigate("/checkout");
+      setCart([]);
+      navigate("/checkout");
+    } else {
+      // TODO: if not logged in, display a modal with three options--checkout as
+      // guest, login, or register. go to login and register and refactor the 
+      // form logic into their own components so theyre reusuable instead of
+      // tied to those pages. probably create a new branch for this.
+    }
   }
 
   return (

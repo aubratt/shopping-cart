@@ -1180,11 +1180,14 @@ button:hover {
   row-gap: 1rem;
   margin-bottom: 1.5rem;
 }
-.register__inputs input {
+.register__input input {
   all: unset;
   border-bottom: 1px solid var(--border);
   width: 350px;
   padding-bottom: 0.25rem;
+}
+.register__error {
+  color: var(--danger);
 }
 
 /* Login */
