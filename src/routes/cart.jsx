@@ -1,13 +1,7 @@
-import {
-  Frown,
-  Minus,
-  Plus,
-  ShoppingCart,
-  Trash,
-  Trash2,
-  User,
-} from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
+
+import firebase from "firebase/compat/app";
 import {
   doc,
   increment,
@@ -17,8 +11,18 @@ import {
   runTransaction,
   onSnapshot,
 } from "firebase/firestore";
-import firebase from "firebase/compat/app";
-import { useEffect, useState } from "react";
+import { getAuth, signInAnonymously } from "firebase/auth";
+
+import {
+  Frown,
+  Minus,
+  Plus,
+  ShoppingCart,
+  Trash,
+  Trash2,
+  User,
+} from "lucide-react";
+
 import RegisterForm from "../components/RegisterForm";
 
 export default function Cart() {
@@ -56,40 +60,46 @@ export default function Cart() {
   }, []);
 
   async function handleCheckout() {
-    const orderNumberDocRef = doc(db, "orders", "nextOrder");
-    const userOrGuestDocRef = currentUser
-      ? doc(db, "users", currentUser.uid)
-      : doc(db, "orders", guestOrders);
+    const auth = getAuth();
+    let uid;
+
+    if (currentUser) {
+      uid = currentUser.uid;
+    } else {
+      const result = await signInAnonymously(auth);
+      uid = result.user.uid;
+    }
+
+    const nextOrderDocRef = doc(db, "orders", "nextOrder");
+    const usersDocRef = doc(db, "users", currentUser.uid);
     const today = new Date();
 
     await runTransaction(db, async (transaction) => {
-      const ordersDoc = await transaction.get(orderNumberDocRef);
+      const ordersDoc = await transaction.get(nextOrderDocRef);
       const newOrderNumber = ordersDoc.data().number + 1;
-      transaction.update(orderNumberDocRef, { number: newOrderNumber });
+      transaction.update(nextOrderDocRef, { number: newOrderNumber });
     });
 
-    await updateDoc(userOrGuestDocRef, {
-      rewards: increment(Math.round(10 * subtotal)),
-      orders: arrayUnion({
-        orderNumber: orderNumber,
-        date: `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`,
-        items: cart,
-        subtotal: subtotal,
-        shipping: shipping,
-        tax: tax,
-        total: total,
-        rewardsEarned: Math.round(10 * subtotal),
-      }),
-    });
+    await setDoc(
+      usersDocRef,
+      {
+        rewards: increment(Math.round(10 * subtotal)),
+        orders: arrayUnion({
+          orderNumber: orderNumber,
+          date: `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`,
+          items: cart,
+          subtotal: subtotal,
+          shipping: shipping,
+          tax: tax,
+          total: total,
+          rewardsEarned: Math.round(10 * subtotal),
+        }),
+      },
+      { merge: true },
+    );
 
     setCart([]);
     navigate("/checkout");
-  }
-
-  async function handleGuestCheckout() {
-    const ordersDocRef = doc(db, "orders", "nextOrder");
-    const guestOrdersDocRef = doc(db, "orders", guestOrders);
-    const today = newDate();
   }
 
   return (
@@ -206,8 +216,8 @@ export default function Cart() {
           </div>
         </div>
         <div className="cart__checkout">
-          {currentUser ? (
-            <button onClick={handleAuthCheckout}>Checkout</button>
+          {currentUser && !currentUser.isAnonymous ? (
+            <button onClick={handleCheckout}>Checkout</button>
           ) : (
             <>
               <button onClick={() => setCheckoutModal("login")}>
@@ -216,7 +226,7 @@ export default function Cart() {
               <button onClick={() => setCheckoutModal("register")}>
                 Register & Checkout
               </button>
-              <button onClick={handleGuestCheckout}>Guest Checkout</button>
+              <button onClick={handleCheckout}>Guest Checkout</button>
             </>
           )}
         </div>

@@ -20,9 +20,14 @@ export default function NavBar({ cart, currentUser }) {
         <Link to="shop/electronics">Electronics</Link>
       </div>
       <div className="nav-bar__utility">
-        <Link to={currentUser ? "profile/account" : "login"}>
+        <Link
+          to={
+            currentUser && !currentUser.isAnonymous
+              ? "profile/account"
+              : "login"
+          }>
           <SquareUserRound />
-          <p>{currentUser ? "Account" : "Login"}</p>
+          <p>{currentUser && !currentUser.isAnonymous ? "Account" : "Login"}</p>
         </Link>
         <Link to="cart">
           <ShoppingCart />

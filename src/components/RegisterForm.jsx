@@ -60,10 +60,9 @@ export default function RegisterForm({ handleSuccess }) {
       await updateProfile(userCredential.user, {
         displayName: `${e.target.first.value} ${e.target.last.value}`,
       });
-      await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(db, "users", userCredential.user.uid), {
         rewards: 0,
         orders: [],
-        inventory: [],
       });
 
       setCurrentUser({ ...auth.currentUser });
