@@ -19,12 +19,14 @@ import {
 } from "firebase/firestore";
 import firebase from "firebase/compat/app";
 import { useEffect, useState } from "react";
+import RegisterForm from "../components/RegisterForm";
 
 export default function Cart() {
   const { db, products, cart, setCart, currentUser } = useOutletContext();
   const navigate = useNavigate();
 
   const [orderNumber, setOrderNumber] = useState(null);
+  const [checkoutModal, setCheckoutModal] = useState(null);
 
   const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
   const subtotal = cart.reduce(
@@ -45,51 +47,49 @@ export default function Cart() {
   }
 
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, "orders", "nextOrder"), (doc) => {
-      setOrderNumber(doc.data().number);
-    });
-
-    return () => unsub();
+    if (currentUser) {
+      const unsub = onSnapshot(doc(db, "orders", "nextOrder"), (doc) => {
+        setOrderNumber(doc.data().number);
+      });
+      return () => unsub();
+    }
   }, []);
 
   async function handleCheckout() {
-    if (currentUser) {
-      const ordersDocRef = doc(db, "orders", "nextOrder");
-      const usersDocRef = doc(db, "users", currentUser.uid);
-      const today = new Date();
+    const orderNumberDocRef = doc(db, "orders", "nextOrder");
+    const userOrGuestDocRef = currentUser
+      ? doc(db, "users", currentUser.uid)
+      : doc(db, "orders", guestOrders);
+    const today = new Date();
 
-      await runTransaction(db, async (transaction) => {
-        const ordersDoc = await transaction.get(ordersDocRef);
-        const newOrderNumber = ordersDoc.data().number + 1;
-        transaction.update(ordersDocRef, { number: newOrderNumber });
-      });
+    await runTransaction(db, async (transaction) => {
+      const ordersDoc = await transaction.get(orderNumberDocRef);
+      const newOrderNumber = ordersDoc.data().number + 1;
+      transaction.update(orderNumberDocRef, { number: newOrderNumber });
+    });
 
-      await updateDoc(usersDocRef, {
-        rewards: increment(Math.round(10 * subtotal)),
-        orders: arrayUnion({
-          orderNumber: orderNumber,
-          date: `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`,
-          items: cart,
-          subtotal: subtotal,
-          shipping: shipping,
-          tax: tax,
-          total: total,
-          rewardsEarned: Math.round(10 * subtotal),
-        }),
-      });
+    await updateDoc(userOrGuestDocRef, {
+      rewards: increment(Math.round(10 * subtotal)),
+      orders: arrayUnion({
+        orderNumber: orderNumber,
+        date: `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`,
+        items: cart,
+        subtotal: subtotal,
+        shipping: shipping,
+        tax: tax,
+        total: total,
+        rewardsEarned: Math.round(10 * subtotal),
+      }),
+    });
 
-      setCart([]);
-      navigate("/checkout");
-    } else {
-      // TODO: if not logged in, display a modal with three options--checkout as
-      // guest, login, or register. go to login and register and refactor the 
-      // form logic into their own components so theyre reusuable instead of
-      // tied to those pages. probably create a new branch for this.
+    setCart([]);
+    navigate("/checkout");
+  }
 
-      // DONE: refactor register
-      // TODO: refactor login
-      // TODO: create checkout-while-not-logged-in modal
-    }
+  async function handleGuestCheckout() {
+    const ordersDocRef = doc(db, "orders", "nextOrder");
+    const guestOrdersDocRef = doc(db, "orders", guestOrders);
+    const today = newDate();
   }
 
   return (
@@ -205,9 +205,21 @@ export default function Cart() {
             <p>{cart.length ? `$${total.toFixed(2)}` : "--"}</p>
           </div>
         </div>
-        <button onClick={handleCheckout} className="cart__checkout">
-          Checkout
-        </button>
+        <div className="cart__checkout">
+          {currentUser ? (
+            <button onClick={handleAuthCheckout}>Checkout</button>
+          ) : (
+            <>
+              <button onClick={() => setCheckoutModal("login")}>
+                Login & Checkout
+              </button>
+              <button onClick={() => setCheckoutModal("register")}>
+                Register & Checkout
+              </button>
+              <button onClick={handleGuestCheckout}>Guest Checkout</button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

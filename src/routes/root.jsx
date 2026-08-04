@@ -15,21 +15,21 @@ import ScrollToTop from "../components/ScrollToTop";
 
 export default function Root() {
   const [loading, setLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(true);
   const [error, setError] = useState(null);
   const [products, setProducts] = useLocalStorage("products", null);
   const [category, setCategory] = useState("all");
   const [cart, setCart] = useLocalStorage("cart", []);
-  const [currentUser, setCurrentUser] = useLocalStorage("currentUser", null);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  const auth = getAuth();
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-    } else {
-      setCurrentUser(null);
-    }
-  });
+      setAuthLoading(false);
+    });
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     const fetchProductsData = async () => {
@@ -61,6 +61,10 @@ export default function Root() {
     };
     fetchProductsData();
   }, [category]);
+
+  if (authLoading) {
+    return null;
+  }
 
   return (
     <>

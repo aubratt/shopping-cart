@@ -10,7 +10,5 @@ export default function Login() {
     navigate("/profile/account");
   }
 
-
-
   return <LoginForm handleSuccess={handleSuccess} />;
 }

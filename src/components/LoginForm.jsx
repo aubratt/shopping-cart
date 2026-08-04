@@ -33,6 +33,7 @@ export default function LoginForm({ handleSuccess }) {
     )
       .then((userCredential) => {
         setCurrentUser(userCredential.user);
+        handleSuccess();
       })
       .catch((error) => {
         const newErrors = {};

@@ -1057,9 +1057,40 @@ button:hover {
   font-weight: bold;
 }
 .cart__checkout {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+.cart__checkout button {
   text-align: center;
   width: 100%;
   padding: 0.5rem 0;
+}
+
+.cart__unauth-checkout-overlay {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.cart__unauth-checkout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--background);
+  border-radius: 1rem;
+  width: 448px;
+  margin: 2.5% auto;
+  padding: 1.5rem;
+}
+.cart__unauth-checkout-options {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .cart__item-quantity button:hover {
