@@ -71,21 +71,23 @@ export default function Root() {
       <ScrollToTop />
       <AnnouncementBar />
       <NavBar cart={cart} currentUser={currentUser} />
-      <Outlet
-        context={{
-          db,
-          loading,
-          setLoading,
-          error,
-          setError,
-          products,
-          setProducts,
-          cart,
-          setCart,
-          currentUser,
-          setCurrentUser,
-        }}
-      />
+      <div className="outlet">
+        <Outlet
+          context={{
+            db,
+            loading,
+            setLoading,
+            error,
+            setError,
+            products,
+            setProducts,
+            cart,
+            setCart,
+            currentUser,
+            setCurrentUser,
+          }}
+        />
+      </div>
       <Footer />
     </>
   );

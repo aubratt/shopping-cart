@@ -178,6 +178,20 @@ button:hover {
   line-height: 0.75rem;
 }
 
+/* Outlet */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.outlet {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 /* Hero Section */
 .hero {
   display: flex;
@@ -376,6 +390,12 @@ button:hover {
   grid-template-columns: 300px;
   row-gap: 0.5rem;
 }
+@media (min-width: 2000px) {
+  .shop__product {
+    grid-template-rows: 560px 1fr;
+    grid-template-columns: 450px;
+  }
+}
 .shop__product-image {
   display: flex;
   background-color: var(--surface);
@@ -385,6 +405,12 @@ button:hover {
   max-height: 375px;
   margin: auto;
   padding: 2rem;
+}
+@media (min-width: 2000px) {
+  .shop__product-image img {
+    max-width: 448px;
+    max-height: 560px;
+  }
 }
 .shop__product-details {
   display: flex;
