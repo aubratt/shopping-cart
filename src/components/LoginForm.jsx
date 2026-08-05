@@ -21,32 +21,32 @@ export default function LoginForm({ handleSuccess }) {
       setFormErrors({ ...formErrors, [e.target.name]: null });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const auth = getAuth();
 
-    signInWithEmailAndPassword(
-      auth,
-      e.target.email.value,
-      e.target.password.value,
-    )
-      .then((userCredential) => {
-        setCurrentUser(userCredential.user);
-        handleSuccess();
-      })
-      .catch((error) => {
-        const newErrors = {};
+    try {
+      await signInWithEmailAndPassword(
+        auth,
+        e.target.email.value,
+        e.target.password.value,
+      );
+    } catch (error) {
+      const newErrors = {};
 
-        if (error.message.includes("email")) {
-          newErrors["email"] = "Invalid email";
-        }
-        if (error.message.includes("credential")) {
-          newErrors["password"] = "Invalid password";
-        }
+      if (error.message.includes("email")) {
+        newErrors["email"] = "Invalid email";
+      }
+      if (error.message.includes("credential")) {
+        newErrors["password"] = "Invalid password";
+      }
 
-        setFormErrors(newErrors);
-      });
+      setFormErrors(newErrors);
+      return;
+    }
+
+    handleSuccess();
   }
 
   return (

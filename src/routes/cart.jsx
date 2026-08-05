@@ -21,16 +21,18 @@ import {
   Trash,
   Trash2,
   User,
+  X,
 } from "lucide-react";
 
 import RegisterForm from "../components/RegisterForm";
+import LoginForm from "../components/LoginForm";
 
 export default function Cart() {
   const { db, products, cart, setCart, currentUser } = useOutletContext();
   const navigate = useNavigate();
 
   const [orderNumber, setOrderNumber] = useState(null);
-  const [checkoutModal, setCheckoutModal] = useState(null);
+  const [modal, setModal] = useState(null);
 
   const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
   const subtotal = cart.reduce(
@@ -50,33 +52,26 @@ export default function Cart() {
     return String(string).charAt(0).toUpperCase() + String(string).slice(1);
   }
 
-  useEffect(() => {
-    if (currentUser) {
-      const unsub = onSnapshot(doc(db, "orders", "nextOrder"), (doc) => {
-        setOrderNumber(doc.data().number);
-      });
-      return () => unsub();
-    }
-  }, []);
-
   async function handleCheckout() {
     const auth = getAuth();
     let uid;
 
-    if (currentUser) {
-      uid = currentUser.uid;
+    if (auth.currentUser) {
+      uid = auth.currentUser.uid;
     } else {
       const result = await signInAnonymously(auth);
       uid = result.user.uid;
     }
 
     const nextOrderDocRef = doc(db, "orders", "nextOrder");
-    const usersDocRef = doc(db, "users", currentUser.uid);
+    const usersDocRef = doc(db, "users", auth.currentUser.uid);
     const today = new Date();
+
+    let newOrderNumber;
 
     await runTransaction(db, async (transaction) => {
       const ordersDoc = await transaction.get(nextOrderDocRef);
-      const newOrderNumber = ordersDoc.data().number + 1;
+      newOrderNumber = ordersDoc.data().number + 1;
       transaction.update(nextOrderDocRef, { number: newOrderNumber });
     });
 
@@ -85,7 +80,7 @@ export default function Cart() {
       {
         rewards: increment(Math.round(10 * subtotal)),
         orders: arrayUnion({
-          orderNumber: orderNumber,
+          orderNumber: newOrderNumber,
           date: `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`,
           items: cart,
           subtotal: subtotal,
@@ -220,10 +215,10 @@ export default function Cart() {
             <button onClick={handleCheckout}>Checkout</button>
           ) : (
             <>
-              <button onClick={() => setCheckoutModal("login")}>
+              <button onClick={() => setModal("login")}>
                 Login & Checkout
               </button>
-              <button onClick={() => setCheckoutModal("register")}>
+              <button onClick={() => setModal("register")}>
                 Register & Checkout
               </button>
               <button onClick={handleCheckout}>Guest Checkout</button>
@@ -231,6 +226,26 @@ export default function Cart() {
           )}
         </div>
       </div>
+
+      {modal && (
+        <div className="cart__modal-overlay">
+          <div className="cart__modal">
+            <div className="cart__close-modal">
+              <button onClick={() => setModal(null)}>
+                <X color="gray" />
+              </button>
+            </div>
+
+            <div className="cart__modal-form">
+              {modal === "login" ? (
+                <LoginForm handleSuccess={handleCheckout} />
+              ) : (
+                <RegisterForm handleSuccess={handleCheckout} />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
