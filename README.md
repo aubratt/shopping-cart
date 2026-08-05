@@ -7,3 +7,7 @@ Image Credits
 ["Men" Category Image](https://www.pexels.com/photo/men-wearing-jackets-6626361/) by [cottonbro studio](https://www.pexels.com/@cottonbro/) on [Pexels](https://www.pexels.com)
 
 ["Women" Category Image](https://www.pexels.com/photo/two-women-posing-5886040/) by [Polina](https://www.pexels.com/@polina-kovaleva/) on [Pexels](https://www.pexels.com)
+
+["Jewelry" Category Image](https://www.pexels.com/photo/gold-jewelries-in-close-up-photography-7314466/) by [Meruyert Gonullu](https://www.pexels.com/@meruyert-gonullu/) on [Pexels](https://www.pexels.com)
+
+["Electronics" Category Image](https://www.pexels.com/photo/faceless-person-with-graphics-tablet-near-modern-multimedia-devices-3262420/) by [Gije Cho](https://www.pexels.com/@gije/) on [Pexels](https://www.pexels.com)
