@@ -44,7 +44,12 @@ export default function RegisterPromo() {
         </div>
       </div>
       <div className="register-promo__button">
-        <Link to={currentUser ? "profile/account" : "register"}>
+        <Link
+          to={
+            currentUser && !currentUser.isAnonymous
+              ? "profile/account"
+              : "register"
+          }>
           <button>
             Register
             <ArrowRight />
