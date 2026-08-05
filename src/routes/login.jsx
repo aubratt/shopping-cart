@@ -10,5 +10,13 @@ export default function Login() {
     navigate("/profile/account");
   }
 
-  return <LoginForm handleSuccess={handleSuccess} />;
+  return (
+    <div className="login">
+      <LoginForm handleSuccess={handleSuccess} />
+      <div className="login__register">
+        <p>Don't have an account?</p>
+        <Link to="/register">Register</Link>
+      </div>
+    </div>
+  );
 }

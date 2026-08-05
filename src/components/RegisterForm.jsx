@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function RegisterForm({ handleSuccess }) {
   const { db, setCurrentUser } = useOutletContext();

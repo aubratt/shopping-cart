@@ -1254,35 +1254,45 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 2rem;
-}
-.login__form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: auto;
-  margin-bottom: 0.5rem;
-}
-.login__inputs {
-  display: flex;
-  flex-direction: column;
   row-gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-.login__input input {
-  all: unset;
-  border-bottom: 1px solid var(--border);
-  width: 350px;
-  padding-bottom: 0.25rem;
-}
-.login__error {
-  color: var(--danger);
+  padding: 2rem;
 }
 .login__register {
   display: flex;
   column-gap: 0.5rem;
 }
-.login__register button {
+
+/* Login Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login-form__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login-form__inputs {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.login-form__input input {
+  all: unset;
+  border-bottom: 1px solid var(--border);
+  width: 350px;
+  padding-bottom: 0.25rem;
+}
+.login-form__error {
+  color: var(--danger);
+}
+.login-form__register {
+  display: flex;
+  column-gap: 0.5rem;
+}
+.login-form__register button {
   all: unset;
 }
 

@@ -50,27 +50,23 @@ export default function LoginForm({ handleSuccess }) {
   }
 
   return (
-    <div className="login">
-      <form onSubmit={handleSubmit} className="login__form">
+    <div className="login-form">
+      <form onSubmit={handleSubmit} className="login-form__form">
         <h1>Login</h1>
-        <div className="login__inputs">
-          <div className="login__input">
+        <div className="login-form__inputs">
+          <div className="login-form__input">
             <input type="text" name="email" placeholder="Email" />
-            {formErrors.email && <p className="login__error">Invalid email</p>}
+            {formErrors.email && <p className="login-form__error">Invalid email</p>}
           </div>
-          <div className="login__input">
+          <div className="login-form__input">
             <input type="password" name="password" placeholder="Password" />
             {formErrors.password && (
-              <p className="login__error">Invalid password</p>
+              <p className="login-form__error">Invalid password</p>
             )}
           </div>
         </div>
         <button type="submit">Login</button>
       </form>
-      <div className="login__register">
-        <p>Don't have an account?</p>
-        <Link to="/register">Register</Link>
-      </div>
     </div>
   );
 }

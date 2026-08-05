@@ -210,21 +210,23 @@ export default function Cart() {
             <p>{cart.length ? `$${total.toFixed(2)}` : "--"}</p>
           </div>
         </div>
-        <div className="cart__checkout">
-          {currentUser && !currentUser.isAnonymous ? (
-            <button onClick={handleCheckout}>Checkout</button>
-          ) : (
-            <>
-              <button onClick={() => setModal("login")}>
-                Login & Checkout
-              </button>
-              <button onClick={() => setModal("register")}>
-                Register & Checkout
-              </button>
-              <button onClick={handleCheckout}>Guest Checkout</button>
-            </>
-          )}
-        </div>
+        {cart.length > 0 && (
+          <div className="cart__checkout">
+            {currentUser && !currentUser.isAnonymous ? (
+              <button onClick={handleCheckout}>Checkout</button>
+            ) : (
+              <>
+                <button onClick={() => setModal("login")}>
+                  Login & Checkout
+                </button>
+                <button onClick={() => setModal("register")}>
+                  Register & Checkout
+                </button>
+                <button onClick={handleCheckout}>Guest Checkout</button>
+              </>
+            )}
+          </div>
+        )}
       </div>
 
       {modal && (
