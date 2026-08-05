@@ -2,11 +2,11 @@ import { useState } from "react";
 import CategoriesCard from "./CategoriesCard";
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import Category1 from "../assets/images/category-1.jpg";
-import Category2 from "../assets/images/category-3.jpg";
-import Category3 from "../assets/images/category-4.jpg";
-import Category4 from "../assets/images/category-5.jpg";
-import Category5 from "../assets/images/category-6.jpg";
+import All from "../assets/images/all.jpg";
+import Men from "../assets/images/men.jpg";
+import Women from "../assets/images/women.jpg";
+import Jewelry from "../assets/images/jewelry.jpg";
+import Electronics from "../assets/images/electronics.jpg";
 
 export default function Categories() {
   class Category {
@@ -20,18 +20,18 @@ export default function Categories() {
     }
   }
 
-  const category1 = new Category("all", "All", Category1);
-  const category2 = new Category("men", "Men", Category2);
-  const category3 = new Category("women", "Women", Category3);
-  const category4 = new Category("jewelry", "Jewelry", Category4);
-  const category5 = new Category("electronics", "Electronics", Category5);
+  const all = new Category("all", "All", All);
+  const men = new Category("men", "Men", Men);
+  const women = new Category("women", "Women", Women);
+  const jewelry = new Category("jewelry", "Jewelry", Jewelry);
+  const electronics = new Category("electronics", "Electronics", Electronics);
 
   const [categories, setCategories] = useState([
-    category1,
-    category2,
-    category3,
-    category4,
-    category5,
+    all,
+    men,
+    women,
+    jewelry,
+    electronics,
   ]);
 
   function initCards(cardCount) {
