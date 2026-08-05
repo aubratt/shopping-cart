@@ -10,8 +10,8 @@ export default function NavBar({ cart, currentUser }) {
         <Link to="/" className="nav-bar__logo">
           ODINSTORE
         </Link>
-        <Link to="company/about">About</Link>
-        <Link to="help/contact">Contact</Link>
+        <Link to="about">About</Link>
+        <Link to="contact">Contact</Link>
       </div>
       <div className="nav-bar__links">
         <Link to="shop/men">Men</Link>

@@ -24,8 +24,8 @@ export default function Footer() {
             <h4>HELP</h4>
           </div>
           <div className="footer__list-items">
-            <Link to="help/contact">Contact</Link>
-            <Link to="help/faq">FAQ</Link>
+            <Link to="contact">Contact</Link>
+            <Link to="faq">FAQ</Link>
           </div>
         </div>
         <div className="footer__list">
@@ -33,11 +33,11 @@ export default function Footer() {
             <h4>COMPANY</h4>
           </div>
           <div className="footer__list-items">
-            <Link to="company/about">About</Link>
-            <Link to="company/press">Press</Link>
-            <Link to="company/news">News & Stories</Link>
-            <Link to="company/terms">Terms of Service</Link>
-            <Link to="company/privacy">Privacy</Link>
+            <Link to="about">About</Link>
+            <Link to="press">Press</Link>
+            <Link to="news">News & Stories</Link>
+            <Link to="terms">Terms of Service</Link>
+            <Link to="privacy">Privacy</Link>
           </div>
         </div>
         <div className="footer__list">

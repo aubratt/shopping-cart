@@ -192,6 +192,18 @@ button:hover {
   justify-content: center;
 }
 
+/* Placeholder */
+.placeholder {
+  align-self: center;
+  max-width: 600px;
+  padding: 2rem 0;
+}
+.placeholder__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
 /* Hero Section */
 .hero {
   display: flex;

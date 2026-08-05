@@ -5,7 +5,6 @@ import "./index.css";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import Index from "./routes/index";
-import Company from "./routes/company";
 import Help from "./routes/help";
 import Shop from "./routes/shop";
 import Cart from "./routes/cart";
@@ -18,6 +17,13 @@ import Rewards from "./routes/rewards";
 import Orders from "./routes/orders";
 import Checkout from "./routes/checkout";
 import Order from "./routes/order";
+import About from "./routes/about";
+import Contact from "./routes/contact";
+import Faq from "./routes/faq";
+import Press from "./routes/press";
+import News from "./routes/news";
+import Terms from "./routes/terms";
+import Privacy from "./routes/privacy";
 
 const router = createBrowserRouter([
   {
@@ -33,12 +39,32 @@ const router = createBrowserRouter([
             element: <Index />,
           },
           {
-            path: "company/:page",
-            element: <Company />,
+            path: "about",
+            element: <About />,
           },
           {
-            path: "help/:page",
-            element: <Help />,
+            path: "contact",
+            element: <Contact />,
+          },
+          {
+            path: "faq",
+            element: <Faq />,
+          },
+          {
+            path: "press",
+            element: <Press />,
+          },
+          {
+            path: "news",
+            element: <News />,
+          },
+          {
+            path: "terms",
+            element: <Terms />,
+          },
+          {
+            path: "privacy",
+            element: <Privacy />,
           },
           {
             path: "shop/:category",
