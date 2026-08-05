@@ -73,11 +73,11 @@ export default function RegisterForm({ handleSuccess }) {
   }
 
   return (
-    <div className="register">
-      <form onSubmit={handleSubmit} className="register__form">
+    <div className="register-form">
+      <form onSubmit={handleSubmit} className="register-form__form">
         <h1>Register</h1>
-        <div className="register__inputs">
-          <div className="register__input">
+        <div className="register-form__inputs">
+          <div className="register-form__input">
             <input
               onChange={handleChange}
               type="text"
@@ -85,10 +85,10 @@ export default function RegisterForm({ handleSuccess }) {
               placeholder="First Name"
             />
             {formErrors.first && (
-              <p className="register__error">{formErrors.first}</p>
+              <p className="register-form__error">{formErrors.first}</p>
             )}
           </div>
-          <div className="register__input">
+          <div className="register-form__input">
             <input
               onChange={handleChange}
               type="text"
@@ -96,10 +96,10 @@ export default function RegisterForm({ handleSuccess }) {
               placeholder="Last Name"
             />
             {formErrors.last && (
-              <p className="register__error">{formErrors.last}</p>
+              <p className="register-form__error">{formErrors.last}</p>
             )}
           </div>
-          <div className="register__input">
+          <div className="register-form__input">
             <input
               onChange={handleChange}
               type="text"
@@ -107,10 +107,10 @@ export default function RegisterForm({ handleSuccess }) {
               placeholder="Email"
             />
             {formErrors.email && (
-              <p className="register__error">{formErrors.email}</p>
+              <p className="register-form__error">{formErrors.email}</p>
             )}
           </div>
-          <div className="register__input">
+          <div className="register-form__input">
             <input
               onChange={handleChange}
               type="password"
@@ -118,10 +118,10 @@ export default function RegisterForm({ handleSuccess }) {
               placeholder="Password"
             />
             {formErrors.password && (
-              <p className="register__error">{formErrors.password}</p>
+              <p className="register-form__error">{formErrors.password}</p>
             )}
           </div>
-          <div className="register__input">
+          <div className="register-form__input">
             <input
               onChange={handleChange}
               type="password"
@@ -129,7 +129,7 @@ export default function RegisterForm({ handleSuccess }) {
               placeholder="Confirm Password"
             />
             {formErrors.confirm && (
-              <p className="register__error">{formErrors.confirm}</p>
+              <p className="register-form__error">{formErrors.confirm}</p>
             )}
           </div>
         </div>

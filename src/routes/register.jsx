@@ -14,5 +14,9 @@ export default function Register() {
     navigate("/");
   }
 
-  return <RegisterForm handleSuccess={handleSuccess} />;
+  return (
+    <div className="register">
+      <RegisterForm handleSuccess={handleSuccess} />
+    </div>
+  );
 }

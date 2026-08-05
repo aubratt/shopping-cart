@@ -1249,38 +1249,48 @@ button:hover {
 
 /* Register */
 .register {
+  align-self: center;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+
+/* Register Form */
+.register-form {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem 4rem;
 }
-.register__form {
+.register-form__form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.register__inputs {
+.register-form__inputs {
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
   margin-bottom: 1.5rem;
 }
-.register__input input {
+.register-form__input input {
   all: unset;
   border-bottom: 1px solid var(--border);
   width: 350px;
   padding-bottom: 0.25rem;
 }
-.register__error {
+.register-form__error {
   color: var(--danger);
 }
 
 /* Login */
 .login {
+  align-self: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   row-gap: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
   padding: 2rem;
 }
 .login__register {
