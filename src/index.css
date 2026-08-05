@@ -366,6 +366,9 @@ button:hover {
 .shop {
   padding: 2rem 4rem;
 }
+.shop__loading {
+  text-align: center;
+}
 .shop__heading {
   display: flex;
   align-items: center;
